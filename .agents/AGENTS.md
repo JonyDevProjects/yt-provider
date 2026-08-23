@@ -76,6 +76,3 @@ Este proyecto tiene configurados los siguientes componentes del ecosistema:
 - `sdd-workflow` — Ciclo SDD completo (diseño → implementación → verificación)
 - `music-provider` — Guía de integración con yt-dlp
 - `nuclear-reference` — Referencia cruzada con el repositorio Nuclear
-
-### OpenSpecs
-Los specs de diseño se almacenan en `.openspecs/<cambio>/README.md`. El archivo `.openspecs/config.json` define las convenciones del proyecto.
