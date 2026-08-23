@@ -1,8 +1,8 @@
 # yt-provider (YouTube Provider for Nuclear)
 
-[![CI](https://github.com/JonyDevProjects/MusicProvider/actions/workflows/ci.yml/badge.svg)](https://github.com/JonyDevProjects/MusicProvider/actions/workflows/ci.yml)
-[![Release](https://github.com/JonyDevProjects/MusicProvider/actions/workflows/release.yml/badge.svg)](https://github.com/JonyDevProjects/MusicProvider/actions/workflows/release.yml)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/JonyDevProjects/MusicProvider/releases/tag/v1.0.0)
+[![CI](https://github.com/JonyDevProjects/yt-provider/actions/workflows/ci.yml/badge.svg)](https://github.com/JonyDevProjects/yt-provider/actions/workflows/ci.yml)
+[![Release](https://github.com/JonyDevProjects/yt-provider/actions/workflows/release.yml/badge.svg)](https://github.com/JonyDevProjects/yt-provider/actions/workflows/release.yml)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/JonyDevProjects/yt-provider/releases/tag/v1.0.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **yt-provider** is a YouTube streaming, metadata, and playlist provider plugin for [Nuclear Music Player](https://nuclear.js.org/) built with `@nuclearplayer/plugin-sdk`.
@@ -25,8 +25,8 @@
 ### Manual Installation (Development)
 1. Clone this repository:
    ```bash
-   git clone https://github.com/JonyDevProjects/MusicProvider.git
-   cd MusicProvider
+   git clone https://github.com/JonyDevProjects/yt-provider.git
+   cd yt-provider
    npm install
    ```
 2. Build the standalone bundle and package archive:
