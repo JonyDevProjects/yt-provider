@@ -13,3 +13,11 @@ test-results/
 coverage/
 *.zip
 release/
+
+# AI assistants and local configuration
+.mcp.json
+.commandcode/
+.atl/
+.engram/
+.gemini/
+legacy/

@@ -1,5 +1,5 @@
 {
-  "name": "music-provider",
+  "name": "yt-provider",
   "version": "1.0.0",
   "description": "High-performance YouTube music search and streaming provider utilizing yt-dlp",
   "author": "iJonyDev",
@@ -14,52 +14,39 @@
   "scripts": {
     "build": "tsup",
     "build:plugin": "tsup",
-    "build:standalone": "tsc",
     "package": "tsx scripts/package-plugin.ts",
-    "start": "node dist/cli.js",
-    "dev:server": "tsx src/server.ts",
-    "dev:proxy": "tsx src/server.ts & cloudflared tunnel --url http://localhost:3000",
     "test": "vitest run",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report tests/e2e-report",
-    "benchmark:api": "tsx benchmarks/model-api.ts",
-    "benchmark:integrated": "tsx benchmarks/model-integrated.ts",
     "benchmark:all": "tsx benchmarks/runner.ts"
   },
   "dependencies": {
-    "adm-zip": "^0.5.14",
-    "axios": "^1.7.2",
-    "commander": "^12.1.0",
-    "cors": "^2.8.6",
-    "express": "^5.2.1",
-    "lru-cache": "^11.5.2",
     "yt-search": "^2.13.1"
   },
   "devDependencies": {
     "@nuclearplayer/plugin-sdk": "^2.8.0",
     "@playwright/test": "^1.61.1",
     "@types/adm-zip": "^0.5.8",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.6",
     "@types/node": "^20.14.9",
-    "@types/supertest": "^7.2.1",
     "@types/yt-search": "^2.10.3",
     "@vitest/coverage-v8": "^1.6.0",
-    "supertest": "^7.2.2",
+    "adm-zip": "^0.5.14",
     "tsup": "^8.5.1",
     "tsx": "^4.16.2",
     "typescript": "^5.9.3",
     "vitest": "^1.6.0"
   },
   "nuclear": {
-    "displayName": "MusicProvider",
+    "displayName": "YouTube Provider",
     "category": "streaming",
     "categories": [
       "streaming",
       "metadata"
     ],
-    "permissions": ["net", "fs"],
+    "permissions": [
+      "net"
+    ],
     "icon": {
       "type": "link",
       "link": "https://raw.githubusercontent.com/nukeop/nuclear/master/packages/ui/assets/logo.svg"

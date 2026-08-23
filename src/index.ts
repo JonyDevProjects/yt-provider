@@ -11,11 +11,10 @@ import type {
   MetadataProvider
 } from '@nuclearplayer/plugin-sdk';
 import { scrapeYoutube as coreScrapeYoutube } from './core/ytScraper.js';
-import { resolveStreamInfo } from './core/cache.js';
 import type { StreamData, HttpLike, SearchResult } from './core/types.js';
 
-const PROVIDER_ID = 'music-provider';
-const PROVIDER_NAME = 'MusicProvider';
+const PROVIDER_ID = 'yt-provider';
+const PROVIDER_NAME = 'YouTube Provider';
 
 const STREAMING_ID = `${PROVIDER_ID}-streaming`;
 const PLAYLIST_ID = `${PROVIDER_ID}-playlist`;
@@ -152,10 +151,8 @@ const plugin: NuclearPlugin = {
         if (!isValidVideoId(candidateId)) {
           throw new Error(`Invalid video ID format: ${candidateId}`);
         }
-        const info = await resolveStreamInfo(candidateId, async (id) => {
-          const sdkInfo = await api.Ytdlp.getStream(id);
-          return sdkToInternal(sdkInfo);
-        });
+        const sdkInfo = await api.Ytdlp.getStream(candidateId);
+        const info = sdkToInternal(sdkInfo);
         return toStream(info.streamUrl, info, candidateId);
       },
     };

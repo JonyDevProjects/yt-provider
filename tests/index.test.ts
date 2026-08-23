@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { NuclearPluginAPI, StreamingProvider, PlaylistProvider } from '@nuclearplayer/plugin-sdk';
 import plugin from '../src/index.js';
-import { streamUrlCache } from '../src/streamCache.js';
 
 describe('Nuclear Plugin Integration', () => {
   let registeredProvider: StreamingProvider | undefined;
@@ -30,7 +29,6 @@ describe('Nuclear Plugin Integration', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    streamUrlCache.clear();
     registeredProvider = undefined;
     registeredPlaylistProvider = undefined;
   });
@@ -39,7 +37,7 @@ describe('Nuclear Plugin Integration', () => {
     await plugin.onEnable!(mockApi);
     expect(mockApi.Providers.register).toHaveBeenCalledTimes(3);
     expect(registeredProvider).toBeDefined();
-    expect(registeredProvider?.id).toBe('music-provider-streaming');
+    expect(registeredProvider?.id).toBe('yt-provider-streaming');
     expect(registeredProvider?.kind).toBe('streaming');
     expect(registeredPlaylistProvider).toBeDefined();
     expect(registeredPlaylistProvider?.kind).toBe('playlists');
@@ -48,17 +46,17 @@ describe('Nuclear Plugin Integration', () => {
   it('should unregister all providers on disable', async () => {
     await plugin.onDisable!(mockApi);
     expect(mockApi.Providers.unregister).toHaveBeenCalledTimes(3);
-    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('music-provider-streaming');
-    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('music-provider-playlist');
-    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('music-provider-metadata');
+    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('yt-provider-streaming');
+    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('yt-provider-playlist');
+    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('yt-provider-metadata');
   });
 
   it('should unregister all providers on unload', async () => {
     await plugin.onUnload!(mockApi);
     expect(mockApi.Providers.unregister).toHaveBeenCalledTimes(3);
-    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('music-provider-streaming');
-    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('music-provider-playlist');
-    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('music-provider-metadata');
+    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('yt-provider-streaming');
+    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('yt-provider-playlist');
+    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('yt-provider-metadata');
   });
 
   it('should search for track using Ytdlp and map to StreamCandidate', async () => {
@@ -83,7 +81,7 @@ describe('Nuclear Plugin Integration', () => {
       durationMs: 120000,
       thumbnail: 'thumb.jpg',
       failed: false,
-      source: { provider: 'music-provider-streaming', id: 'vid1' }
+      source: { provider: 'yt-provider-streaming', id: 'vid1' }
     });
   });
 
@@ -110,7 +108,7 @@ describe('Nuclear Plugin Integration', () => {
     expect(candidates[0].id).toBe('vid2');
   });
 
-  it('should get stream URL, map types, and cache the result', async () => {
+  it('should get stream URL directly from Ytdlp with safe range', async () => {
     await plugin.onEnable!(mockApi);
     
     // Mock Ytdlp getStream response (snake_case)
@@ -123,7 +121,6 @@ describe('Nuclear Plugin Integration', () => {
     };
     (mockApi.Ytdlp.getStream as any).mockResolvedValue(mockSdkStreamInfo);
 
-    // First call (cache miss)
     const stream = await registeredProvider!.getStreamUrl!('vid1');
     
     expect(mockApi.Ytdlp.getStream).toHaveBeenCalledTimes(1);
@@ -136,13 +133,8 @@ describe('Nuclear Plugin Integration', () => {
       codec: 'mp4a.40.2',
       container: 'm4a',
       durationMs: 120000,
-      source: { provider: 'music-provider-streaming', id: 'vid1' },
+      source: { provider: 'yt-provider-streaming', id: 'vid1' },
     });
-
-    // Second call (cache hit)
-    const cachedStream = await registeredProvider!.getStreamUrl!('vid1');
-    expect(mockApi.Ytdlp.getStream).toHaveBeenCalledTimes(1); // Should not increase
-    expect(cachedStream).toEqual(stream);
   });
 
   it('should fetch and map a playlist', async () => {

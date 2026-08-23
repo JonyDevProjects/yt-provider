@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "engram": {
+      "transport": "stdio",
+      "enabled": true,
+      "command": "engram",
+      "args": [
+        "mcp"
+      ]
+    }
+  }
+}

@@ -32,7 +32,7 @@ async function packagePlugin() {
   const rootPkg = JSON.parse(fs.readFileSync(rootPkgPath, 'utf8'));
 
   const cleanManifest = {
-    name: rootPkg.name || 'music-provider',
+    name: rootPkg.name || 'yt-provider',
     version: rootPkg.version || '1.0.0',
     description: rootPkg.description || 'High-performance YouTube music search and streaming provider utilizing yt-dlp',
     author: rootPkg.author || 'iJonyDev',
@@ -40,10 +40,10 @@ async function packagePlugin() {
     category: 'streaming',
     categories: ['streaming', 'metadata'],
     nuclear: rootPkg.nuclear || {
-      displayName: 'MusicProvider',
+      displayName: 'YouTube Provider',
       category: 'streaming',
       categories: ['streaming', 'metadata'],
-      permissions: ['net', 'fs'],
+      permissions: ['net'],
       icon: {
         type: 'link',
         link: 'https://raw.githubusercontent.com/nukeop/nuclear/master/packages/ui/assets/logo.svg'
