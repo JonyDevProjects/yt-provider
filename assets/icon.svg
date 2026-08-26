@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF1E27" />
+      <stop offset="100%" stop-color="#B30006" />
+    </linearGradient>
+    <linearGradient id="glowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="125%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#000000" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <!-- Base Squircle Background -->
+  <rect x="32" y="32" width="448" height="448" rx="112" fill="url(#bgGradient)" filter="url(#shadow)" />
+  
+  <!-- Subtle Top Highlight -->
+  <rect x="32" y="32" width="448" height="224" rx="112" fill="url(#glowGradient)" />
+
+  <!-- Outer Soundwaves (Music Provider theme) -->
+  <path d="M 120 256 C 120 200, 145 152, 185 120" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" fill="none" opacity="0.4" />
+  <path d="M 120 256 C 120 312, 145 360, 185 392" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" fill="none" opacity="0.4" />
+  
+  <path d="M 392 256 C 392 200, 367 152, 327 120" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" fill="none" opacity="0.4" />
+  <path d="M 392 256 C 392 312, 367 360, 327 392" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" fill="none" opacity="0.4" />
+
+  <!-- Inner Play / Music Shield -->
+  <path d="M 180 170 C 180 156, 196 147, 208 154 L 354 240 C 366 247, 366 265, 354 272 L 208 358 C 196 365, 180 356, 180 342 Z" fill="#FFFFFF" />
+
+  <!-- Stylized Music Equalizer Bar inside Play Button -->
+  <circle cx="236" cy="256" r="14" fill="#FF1E27" />
+</svg>

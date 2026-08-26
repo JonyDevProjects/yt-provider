@@ -10,7 +10,7 @@ import type {
   Playlist,
   MetadataProvider
 } from '@nuclearplayer/plugin-sdk';
-import { scrapeYoutube as coreScrapeYoutube } from './core/ytScraper.js';
+import { searchUnified as coreSearchUnified } from './core/ytScraper.js';
 import type { StreamData, HttpLike, SearchResult } from './core/types.js';
 
 const PROVIDER_ID = 'yt-provider';
@@ -74,12 +74,13 @@ function toStream(url: string, info: StreamData, sourceId: string): Stream {
 
 function createHttpAdapter(api: NuclearPluginAPI): HttpLike {
   return {
-    fetch: async (url: string, init?: { headers?: Record<string, string>; method?: string }) => {
+    fetch: async (url: string, init?: { headers?: Record<string, string>; method?: string; body?: string }) => {
       // Do NOT send manual Accept-Encoding when using reqwest default client without gzip feature,
       // as reqwest will return raw compressed binary bytes into response.text() causing string corruption.
       const res = await api.Http.fetch(url, {
         headers: init?.headers,
-        method: init?.method
+        method: init?.method,
+        body: init?.body
       });
       const body = typeof res.body === 'string' ? res.body : await (res as any).text?.() || '';
       return {
@@ -91,9 +92,9 @@ function createHttpAdapter(api: NuclearPluginAPI): HttpLike {
   };
 }
 
-async function scrapeYoutube(api: NuclearPluginAPI, query: string, limit: number): Promise<SearchResult[]> {
+async function searchUnified(api: NuclearPluginAPI, query: string, limit: number): Promise<SearchResult[]> {
   const http = createHttpAdapter(api);
-  return coreScrapeYoutube(http, query, limit, async (fallbackQuery, fallbackLimit) => {
+  return coreSearchUnified(http, query, limit, async (fallbackQuery, fallbackLimit) => {
     // Fallback to Nuclear's Ytdlp which delegates to Rust yt-dlp backend
     const results = await api.Ytdlp.search(fallbackQuery, fallbackLimit);
     return (results as any[]).map(r => ({
@@ -128,7 +129,7 @@ const plugin: NuclearPlugin = {
           ? `${artist} - ${title} - ${album}`
           : `${artist} - ${title}`;
         
-        const results = await scrapeYoutube(api, query, 10);
+        const results = await searchUnified(api, query, 10);
         return results.map(r =>
           toStreamCandidate(r.id, r.title, r.duration, r.thumbnail),
         );
@@ -142,7 +143,7 @@ const plugin: NuclearPlugin = {
           ? `${artist} - ${title} - ${album}`
           : `${artist} - ${title}`;
           
-        const results = await scrapeYoutube(api, query, 10);
+        const results = await searchUnified(api, query, 10);
         return results.map(r =>
           toStreamCandidate(r.id, r.title, r.duration, r.thumbnail),
         );
@@ -209,7 +210,7 @@ const plugin: NuclearPlugin = {
         const query = params.query;
         if (!query) return {};
 
-        const results = await scrapeYoutube(api, query, 20);
+        const results = await searchUnified(api, query, 20);
         return {
           tracks: results.map((r) => ({
             title: r.title,

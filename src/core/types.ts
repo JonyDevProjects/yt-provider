@@ -8,6 +8,7 @@ export interface HttpLike {
   fetch(url: string, init?: {
     headers?: Record<string, string>;
     method?: string;
+    body?: string;
   }): Promise<HttpLikeResponse>;
 }
 

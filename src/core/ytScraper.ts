@@ -1,4 +1,19 @@
 import type { HttpLike, SearchResult } from './types.js';
+import { searchInnertube } from './innertubeScraper.js';
+
+export interface CacheEntry {
+  results: SearchResult[];
+  expiresAt: number;
+}
+
+export const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutos
+export const CACHE_MAX_ENTRIES = 50;
+
+export const searchCache = new Map<string, CacheEntry>();
+
+export function clearSearchCache(): void {
+  searchCache.clear();
+}
 
 export function parseDuration(text: string): number {
   if (!text) return 0;
@@ -97,4 +112,82 @@ export async function scrapeYoutube(
     }
     throw error;
   }
+}
+
+/**
+ * Unified search with 3-tier fallback chain and in-memory LRU cache:
+ * Level 1: Innertube JSON API (~200ms, ~40KB)
+ * Level 2: HTML Scraping (~760ms, ~1.8MB)
+ * Level 3: Native Ytdlp SDK (~1200ms)
+ */
+export async function searchUnified(
+  http: HttpLike,
+  query: string,
+  limit: number = 10,
+  fallbackFn?: (query: string, limit: number) => Promise<SearchResult[]>
+): Promise<SearchResult[]> {
+  const cacheKey = `${query.trim().toLowerCase()}::${limit}`;
+  const cached = searchCache.get(cacheKey);
+  if (cached) {
+    if (Date.now() < cached.expiresAt) {
+      // Refresh key for LRU ordering
+      searchCache.delete(cacheKey);
+      searchCache.set(cacheKey, cached);
+      return cached.results;
+    }
+    searchCache.delete(cacheKey);
+  }
+
+  let results: SearchResult[] | null = null;
+
+  // Tier 1: Innertube JSON API
+  try {
+    const innerResults = await searchInnertube(http, query, limit);
+    if (innerResults && innerResults.length > 0) {
+      results = innerResults;
+    }
+  } catch (err) {
+    console.warn(`[Core:Search] Innertube search failed, falling back to Level 2 HTML:`, err);
+  }
+
+  // Tier 2: HTML Scraping
+  if (!results || results.length === 0) {
+    try {
+      console.log(`[Core:Search] Attempting Level 2 HTML scrape for: "${query}"`);
+      const htmlResults = await scrapeYoutube(http, query, limit);
+      if (htmlResults && htmlResults.length > 0) {
+        results = htmlResults;
+      }
+    } catch (err) {
+      console.warn(`[Core:Search] HTML scrape failed, falling back to Level 3:`, err);
+    }
+  }
+
+  // Tier 3: Deep fallbackFn (Nuclear Ytdlp SDK)
+  if ((!results || results.length === 0) && fallbackFn) {
+    console.log(`[Core:Search] Attempting Level 3 fallback function for: "${query}"`);
+    try {
+      results = await fallbackFn(query, limit);
+    } catch (err) {
+      console.error(`[Core:Search] Level 3 fallback failed:`, err);
+      results = [];
+    }
+  }
+
+  if (!results) {
+    results = [];
+  }
+
+  if (results.length > 0) {
+    if (searchCache.size >= CACHE_MAX_ENTRIES) {
+      const oldestKey = searchCache.keys().next().value;
+      if (oldestKey) searchCache.delete(oldestKey);
+    }
+    searchCache.set(cacheKey, {
+      results,
+      expiresAt: Date.now() + CACHE_TTL_MS
+    });
+  }
+
+  return results;
 }

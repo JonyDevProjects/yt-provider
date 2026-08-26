@@ -1,0 +1,140 @@
+{
+  "contents": {
+    "sectionListRenderer": {
+      "contents": [
+        {
+          "musicShelfRenderer": {
+            "title": {
+              "runs": [
+                {
+                  "text": "Songs"
+                }
+              ]
+            },
+            "contents": [
+              {
+                "musicResponsiveListItemRenderer": {
+                  "playlistItemData": {
+                    "videoId": "dQw4w9WgXcQ"
+                  },
+                  "flexColumns": [
+                    {
+                      "musicResponsiveListItemFlexColumnRenderer": {
+                        "text": {
+                          "runs": [
+                            {
+                              "text": "Never Gonna Give You Up"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "musicResponsiveListItemFlexColumnRenderer": {
+                        "text": {
+                          "runs": [
+                            {
+                              "text": "Rick Astley"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "thumbnail": {
+                    "musicThumbnailRenderer": {
+                      "thumbnail": {
+                        "thumbnails": [
+                          {
+                            "url": "https://lh3.googleusercontent.com/test=w60-h60-l90-rj",
+                            "width": 60,
+                            "height": 60
+                          },
+                          {
+                            "url": "https://lh3.googleusercontent.com/test=w544-h544-l90-rj",
+                            "width": 544,
+                            "height": 544
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "overlay": {
+                    "musicItemThumbnailOverlayRenderer": {
+                      "content": {
+                        "musicThumbnailOverlayTimeStatusRenderer": {
+                          "text": {
+                            "simpleText": "3:33"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "musicResponsiveListItemRenderer": {
+                  "doubleTapCommand": {
+                    "watchEndpoint": {
+                      "videoId": "9bZkp7q19f0"
+                    }
+                  },
+                  "flexColumns": [
+                    {
+                      "musicResponsiveListItemFlexColumnRenderer": {
+                        "text": {
+                          "runs": [
+                            {
+                              "text": "Gangnam Style"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "musicResponsiveListItemFlexColumnRenderer": {
+                        "text": {
+                          "runs": [
+                            {
+                              "text": "PSY"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "thumbnail": {
+                    "musicThumbnailRenderer": {
+                      "thumbnails": [
+                        {
+                          "url": "https://lh3.googleusercontent.com/psy=w544-h544-l90-rj",
+                          "width": 544,
+                          "height": 544
+                        }
+                      ]
+                    }
+                  },
+                  "overlay": {
+                    "musicItemThumbnailOverlayRenderer": {
+                      "content": {
+                        "musicThumbnailOverlayTimeStatusRenderer": {
+                          "text": {
+                            "runs": [
+                              {
+                                "text": "4:12"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

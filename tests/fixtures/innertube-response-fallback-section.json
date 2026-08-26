@@ -1,0 +1,43 @@
+{
+  "contents": {
+    "sectionListRenderer": {
+      "contents": [
+        {
+          "itemSectionRenderer": {
+            "contents": [
+              {
+                "videoRenderer": {
+                  "videoId": "generic123",
+                  "title": {
+                    "runs": [
+                      {
+                        "text": "Generic Video Title"
+                      }
+                    ]
+                  },
+                  "lengthText": {
+                    "simpleText": "5:00"
+                  },
+                  "thumbnail": {
+                    "thumbnails": [
+                      {
+                        "url": "https://i.ytimg.com/vi/generic123/hqdefault.jpg"
+                      }
+                    ]
+                  },
+                  "ownerText": {
+                    "runs": [
+                      {
+                        "text": "Generic Channel"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
