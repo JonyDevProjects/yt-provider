@@ -13,7 +13,6 @@
 - **Direct Stream Playback**: Resolves audio streams directly through Nuclear's native `api.Ytdlp` with safe HTTP range parameters.
 - **YouTube Playlists**: Fetches and imports public YouTube playlists by URL.
 - **Lightweight Bundle**: Self-contained CommonJS bundle (~9 KB) with zero external runtime dependencies.
-- **Network-only Permissions**: Declares and requires only `net` permission.
 
 ## Installation
 
