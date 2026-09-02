@@ -1,6 +1,4 @@
-import { execFile } from 'child_process';
-import yts from 'yt-search';
-import type { SearchResult, StreamData, PlaylistData, PlaylistEntry } from './types.js';
+import type { StreamData, PlaylistData, PlaylistEntry } from './types.js';
 import { parseNdjson } from './ndjson.js';
 
 export function normalizeUrl(videoIdOrUrl: string): string {
@@ -11,21 +9,6 @@ export function normalizeUrl(videoIdOrUrl: string): string {
 }
 
 export type YtdlpExecutor = (args: string[]) => Promise<string>;
-
-export async function search(query: string, limit: number = 10): Promise<SearchResult[]> {
-  console.log(`[yt-search] Searching: "${query}" (limit: ${limit})`);
-  
-  const results = await yts(query);
-  const videos = results.videos.slice(0, limit);
-
-  return videos.map(video => ({
-    id: video.videoId,
-    title: video.title,
-    duration: video.seconds,
-    thumbnail: video.thumbnail || null,
-    channel: video.author.name
-  }));
-}
 
 export async function getStreamInfo(
   videoIdOrUrl: string,

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { normalizeUrl, search, getStreamInfo, getPlaylistInfo } from '../../src/core/extractor.js';
+import { normalizeUrl, getStreamInfo, getPlaylistInfo } from '../../src/core/extractor.js';
 
 describe('Core Extractor', () => {
   describe('normalizeUrl', () => {

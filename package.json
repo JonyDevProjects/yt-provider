@@ -1,7 +1,7 @@
 {
-  "name": "yt-provider",
+  "name": "nucleartube",
   "version": "1.0.0",
-  "description": "High-performance YouTube music search and streaming provider utilizing yt-dlp",
+  "description": "High-performance YouTube music search, playlist extraction, and streaming provider for Nuclear utilizing yt-dlp",
   "author": "iJonyDev",
   "category": "streaming",
   "categories": [
@@ -21,15 +21,11 @@
     "test:e2e:report": "playwright show-report tests/e2e-report",
     "benchmark:all": "tsx benchmarks/runner.ts"
   },
-  "dependencies": {
-    "yt-search": "^2.13.1"
-  },
   "devDependencies": {
     "@nuclearplayer/plugin-sdk": "^2.8.0",
     "@playwright/test": "^1.61.1",
     "@types/adm-zip": "^0.5.8",
     "@types/node": "^20.14.9",
-    "@types/yt-search": "^2.10.3",
     "@vitest/coverage-v8": "^1.6.0",
     "adm-zip": "^0.5.14",
     "tsup": "^8.5.1",
@@ -38,18 +34,16 @@
     "vitest": "^1.6.0"
   },
   "nuclear": {
-    "displayName": "YouTube Provider",
+    "displayName": "NuclearTube",
     "category": "streaming",
     "categories": [
       "streaming",
       "metadata"
     ],
-    "permissions": [
-      "net"
-    ],
+    "permissions": [],
     "icon": {
       "type": "link",
-      "link": "https://raw.githubusercontent.com/nukeop/nuclear/master/packages/ui/assets/logo.svg"
+      "link": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KICA8ZGVmcz4KICAgIDwhLS0gQmFja2dyb3VuZCBHcmFkaWVudCAtLT4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ibnRCZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMxMjE2MUYiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjMEEwRDE0IiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwNTA3MEEiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgoKICAgIDwhLS0gWW91VHViZSBDcmltc29uIEdyYWRpZW50IC0tPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJ5dEdyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjRkYxRTI3IiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNDNDAwMDgiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgoKICAgIDwhLS0gTnVjbGVhciBDeWFuL05lb24gR3JhZGllbnQgLS0+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Im51Y2xlYXJDeWFuIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwRjVENCIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDBCNEQ4IiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KCiAgICA8IS0tIEdsb3cgRmlsdGVyIC0tPgogICAgPGZpbHRlciBpZD0ibmVvbkdsb3ciIHg9Ii0yMCUiIHk9Ii0yMCUiIHdpZHRoPSIxNDAlIiBoZWlnaHQ9IjE0MCUiPgogICAgICA8ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSI4IiByZXN1bHQ9ImJsdXIiIC8+CiAgICAgIDxmZU1lcmdlPgogICAgICAgIDxmZU1lcmdlTm9kZSBpbj0iYmx1ciIgLz4KICAgICAgICA8ZmVNZXJnZU5vZGUgaW49IlNvdXJjZUdyYXBoaWMiIC8+CiAgICAgIDwvZmVNZXJnZT4KICAgIDwvZmlsdGVyPgoKICAgIDwhLS0gU2hhZG93IGZvciBDZW50ZXIgU2hpZWxkIC0tPgogICAgPGZpbHRlciBpZD0iY2VudGVyU2hhZG93IiB4PSItMjAlIiB5PSItMjAlIiB3aWR0aD0iMTQwJSIgaGVpZ2h0PSIxNDAlIj4KICAgICAgPGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjEyIiBzdGREZXZpYXRpb249IjE2IiBmbG9vZC1jb2xvcj0iIzAwMDAwMCIgZmxvb2Qtb3BhY2l0eT0iMC42IiAvPgogICAgPC9maWx0ZXI+CiAgPC9kZWZzPgoKICA8IS0tIFNxdWlyY2xlIEJhc2UgQ2FudmFzIC0tPgogIDxyZWN0IHg9IjI0IiB5PSIyNCIgd2lkdGg9IjQ2NCIgaGVpZ2h0PSI0NjQiIHJ4PSIxMDgiIGZpbGw9InVybCgjbnRCZykiIHN0cm9rZT0iIzFGMjkzRCIgc3Ryb2tlLXdpZHRoPSI0IiAvPgoKICA8IS0tIE51Y2xlYXIgQXRvbWljIE9yYml0IDEgKEFuZ2xlIDMwIGRlZykgLS0+CiAgPGcgdHJhbnNmb3JtPSJyb3RhdGUoMzAgMjU2IDI1NikiIGZpbHRlcj0idXJsKCNuZW9uR2xvdykiPgogICAgPGVsbGlwc2UgY3g9IjI1NiIgY3k9IjI1NiIgcng9IjE4OCIgcnk9IjY0IiBmaWxsPSJub25lIiBzdHJva2U9InVybCgjbnVjbGVhckN5YW4pIiBzdHJva2Utd2lkdGg9IjgiIG9wYWNpdHk9IjAuODUiIHN0cm9rZS1kYXNoYXJyYXk9IjI0IDEyIiAvPgogICAgPCEtLSBFbGVjdHJvbiBQYXJ0aWNsZSAtLT4KICAgIDxjaXJjbGUgY3g9IjQ0NCIgY3k9IjI1NiIgcj0iMTAiIGZpbGw9IiMwMEY1RDQiIC8+CiAgICA8Y2lyY2xlIGN4PSI0NDQiIGN5PSIyNTYiIHI9IjE2IiBmaWxsPSIjMDBGNUQ0IiBvcGFjaXR5PSIwLjMiIC8+CiAgPC9nPgoKICA8IS0tIE51Y2xlYXIgQXRvbWljIE9yYml0IDIgKEFuZ2xlIC0zMCBkZWcpIC0tPgogIDxnIHRyYW5zZm9ybT0icm90YXRlKC0zMCAyNTYgMjU2KSIgZmlsdGVyPSJ1cmwoI25lb25HbG93KSI+CiAgICA8ZWxsaXBzZSBjeD0iMjU2IiBjeT0iMjU2IiByeD0iMTg4IiByeT0iNjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNudWNsZWFyQ3lhbikiIHN0cm9rZS13aWR0aD0iOCIgb3BhY2l0eT0iMC44NSIgc3Ryb2tlLWRhc2hhcnJheT0iMjQgMTIiIC8+CiAgICA8IS0tIEVsZWN0cm9uIFBhcnRpY2xlIC0tPgogICAgPGNpcmNsZSBjeD0iNjgiIGN5PSIyNTYiIHI9IjEwIiBmaWxsPSIjMDBGNUQ0IiAvPgogICAgPGNpcmNsZSBjeD0iNjgiIGN5PSIyNTYiIHI9IjE2IiBmaWxsPSIjMDBGNUQ0IiBvcGFjaXR5PSIwLjMiIC8+CiAgPC9nPgoKICA8IS0tIE51Y2xlYXIgQXRvbWljIE9yYml0IDMgKEhvcml6b250YWwgOTAgZGVnKSAtLT4KICA8ZyB0cmFuc2Zvcm09InJvdGF0ZSg5MCAyNTYgMjU2KSIgZmlsdGVyPSJ1cmwoI25lb25HbG93KSI+CiAgICA8ZWxsaXBzZSBjeD0iMjU2IiBjeT0iMjU2IiByeD0iMTg4IiByeT0iNjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNudWNsZWFyQ3lhbikiIHN0cm9rZS13aWR0aD0iOCIgb3BhY2l0eT0iMC40IiAvPgogIDwvZz4KCiAgPCEtLSBDZW50ZXIgWW91VHViZSBUdWJlIEJhZGdlIChSb3VuZGVkIFJlY3QpIC0tPgogIDxyZWN0IHg9IjE0NCIgeT0iMTY4IiB3aWR0aD0iMjI0IiBoZWlnaHQ9IjE3NiIgcng9IjQ4IiBmaWxsPSJ1cmwoI3l0R3JhZCkiIGZpbHRlcj0idXJsKCNjZW50ZXJTaGFkb3cpIiBzdHJva2U9IiNGRkZGRkYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLW9wYWNpdHk9IjAuMTUiIC8+CgogIDwhLS0gUGxheSBUcmlhbmdsZSBTeW1ib2wgLS0+CiAgPHBhdGggZD0iTSAyMzAgMjE2IEwgMzAyIDI1NiBMIDIzMCAyOTYgWiIgZmlsbD0iI0ZGRkZGRiIgLz4KCiAgPCEtLSBOdWNsZWFyIENvcmUgRW5lcmd5IERvdHMgKFRvcCBhbmQgQm90dG9tKSAtLT4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIxMTYiIHI9IjYiIGZpbGw9IiMwMEY1RDQiIG9wYWNpdHk9IjAuOCIgLz4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIzOTYiIHI9IjYiIGZpbGw9IiMwMEY1RDQiIG9wYWNpdHk9IjAuOCIgLz4KPC9zdmc+Cg=="
     }
   }
 }

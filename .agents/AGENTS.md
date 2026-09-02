@@ -1,12 +1,12 @@
 # AGENTS.md
 
-Directrices para agentes de codificación de IA que trabajan en el proyecto MusicProvider (Eje 1).
+Directrices para agentes de codificación de IA que trabajan en el proyecto NuclearTube (Eje 1).
 
 ## Descripción del Proyecto
 
-MusicProvider es un Plugin oficial de TypeScript para el reproductor de música **Nuclear** (`@nuclearplayer/plugin-sdk`) que provee búsqueda de alta velocidad (`yt-search`), extracción y resolución de streams de audio (`yt-dlp` / scraper isomórfico) y almacenamiento en caché LRU en memoria RAM (`lru-cache`).
+NuclearTube es un Plugin oficial de TypeScript para el reproductor de música **Nuclear** (`@nuclearplayer/plugin-sdk`) que provee búsqueda de alta velocidad, extracción y resolución de streams de audio (`yt-dlp` / scraper isomórfico) y almacenamiento en caché LRU en memoria RAM (`lru-cache`).
 
-El plugin está completamente desacoplado de frameworks HTTP, se empaqueta de forma autónoma con `tsup` (bundle de ~34 KB sin dependencias externas en runtime) y genera el paquete oficial `plugin.zip` para la Nuclear Plugin Store.
+El plugin está completamente desacoplado de frameworks HTTP, se empaqueta de forma autónoma con `tsup` (bundle ultraligero de ~9 KB sin dependencias externas en runtime) y genera el paquete oficial `plugin.zip` para la Nuclear Plugin Store.
 
 ## Comandos del Proyecto
 

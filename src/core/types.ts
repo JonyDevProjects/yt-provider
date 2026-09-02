@@ -41,11 +41,3 @@ export interface PlaylistData {
   entries: PlaylistEntry[];
 }
 
-export interface TrackData {
-  id: string;
-  title: string;
-  artists?: string[];
-  album?: string;
-  duration?: number | null;
-  thumbnail?: string | null;
-}

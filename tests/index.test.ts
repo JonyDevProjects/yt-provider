@@ -37,7 +37,7 @@ describe('Nuclear Plugin Integration', () => {
     await plugin.onEnable!(mockApi);
     expect(mockApi.Providers.register).toHaveBeenCalledTimes(3);
     expect(registeredProvider).toBeDefined();
-    expect(registeredProvider?.id).toBe('yt-provider-streaming');
+    expect(registeredProvider?.id).toBe('nucleartube-streaming');
     expect(registeredProvider?.kind).toBe('streaming');
     expect(registeredPlaylistProvider).toBeDefined();
     expect(registeredPlaylistProvider?.kind).toBe('playlists');
@@ -46,17 +46,17 @@ describe('Nuclear Plugin Integration', () => {
   it('should unregister all providers on disable', async () => {
     await plugin.onDisable!(mockApi);
     expect(mockApi.Providers.unregister).toHaveBeenCalledTimes(3);
-    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('yt-provider-streaming');
-    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('yt-provider-playlist');
-    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('yt-provider-metadata');
+    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('nucleartube-streaming');
+    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('nucleartube-playlist');
+    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('nucleartube-metadata');
   });
 
   it('should unregister all providers on unload', async () => {
     await plugin.onUnload!(mockApi);
     expect(mockApi.Providers.unregister).toHaveBeenCalledTimes(3);
-    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('yt-provider-streaming');
-    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('yt-provider-playlist');
-    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('yt-provider-metadata');
+    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('nucleartube-streaming');
+    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('nucleartube-playlist');
+    expect(mockApi.Providers.unregister).toHaveBeenCalledWith('nucleartube-metadata');
   });
 
   it('should search for track using Ytdlp and map to StreamCandidate', async () => {
@@ -81,7 +81,7 @@ describe('Nuclear Plugin Integration', () => {
       durationMs: 120000,
       thumbnail: 'thumb.jpg',
       failed: false,
-      source: { provider: 'yt-provider-streaming', id: 'vid1' }
+      source: { provider: 'nucleartube-streaming', id: 'vid1' }
     });
   });
 
@@ -133,7 +133,7 @@ describe('Nuclear Plugin Integration', () => {
       codec: 'mp4a.40.2',
       container: 'm4a',
       durationMs: 120000,
-      source: { provider: 'yt-provider-streaming', id: 'vid1' },
+      source: { provider: 'nucleartube-streaming', id: 'vid1' },
     });
   });
 

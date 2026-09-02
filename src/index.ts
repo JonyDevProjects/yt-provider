@@ -13,8 +13,8 @@ import type {
 import { scrapeYoutube as coreScrapeYoutube } from './core/ytScraper.js';
 import type { StreamData, HttpLike, SearchResult } from './core/types.js';
 
-const PROVIDER_ID = 'yt-provider';
-const PROVIDER_NAME = 'YouTube Provider';
+const PROVIDER_ID = 'nucleartube';
+const PROVIDER_NAME = 'NuclearTube';
 
 const STREAMING_ID = `${PROVIDER_ID}-streaming`;
 const PLAYLIST_ID = `${PROVIDER_ID}-playlist`;

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="ntBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#12161F" />
+      <stop offset="50%" stop-color="#0A0D14" />
+      <stop offset="100%" stop-color="#05070A" />
+    </linearGradient>
+
+    <!-- YouTube Crimson Gradient -->
+    <linearGradient id="ytGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF1E27" />
+      <stop offset="100%" stop-color="#C40008" />
+    </linearGradient>
+
+    <!-- Nuclear Cyan/Neon Gradient -->
+    <linearGradient id="nuclearCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F5D4" />
+      <stop offset="100%" stop-color="#00B4D8" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Shadow for Center Shield -->
+    <filter id="centerShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Squircle Base Canvas -->
+  <rect x="24" y="24" width="464" height="464" rx="108" fill="url(#ntBg)" stroke="#1F293D" stroke-width="4" />
+
+  <!-- Nuclear Atomic Orbit 1 (Angle 30 deg) -->
+  <g transform="rotate(30 256 256)" filter="url(#neonGlow)">
+    <ellipse cx="256" cy="256" rx="188" ry="64" fill="none" stroke="url(#nuclearCyan)" stroke-width="8" opacity="0.85" stroke-dasharray="24 12" />
+    <!-- Electron Particle -->
+    <circle cx="444" cy="256" r="10" fill="#00F5D4" />
+    <circle cx="444" cy="256" r="16" fill="#00F5D4" opacity="0.3" />
+  </g>
+
+  <!-- Nuclear Atomic Orbit 2 (Angle -30 deg) -->
+  <g transform="rotate(-30 256 256)" filter="url(#neonGlow)">
+    <ellipse cx="256" cy="256" rx="188" ry="64" fill="none" stroke="url(#nuclearCyan)" stroke-width="8" opacity="0.85" stroke-dasharray="24 12" />
+    <!-- Electron Particle -->
+    <circle cx="68" cy="256" r="10" fill="#00F5D4" />
+    <circle cx="68" cy="256" r="16" fill="#00F5D4" opacity="0.3" />
+  </g>
+
+  <!-- Nuclear Atomic Orbit 3 (Horizontal 90 deg) -->
+  <g transform="rotate(90 256 256)" filter="url(#neonGlow)">
+    <ellipse cx="256" cy="256" rx="188" ry="64" fill="none" stroke="url(#nuclearCyan)" stroke-width="8" opacity="0.4" />
+  </g>
+
+  <!-- Center YouTube Tube Badge (Rounded Rect) -->
+  <rect x="144" y="168" width="224" height="176" rx="48" fill="url(#ytGrad)" filter="url(#centerShadow)" stroke="#FFFFFF" stroke-width="3" stroke-opacity="0.15" />
+
+  <!-- Play Triangle Symbol -->
+  <path d="M 230 216 L 302 256 L 230 296 Z" fill="#FFFFFF" />
+
+  <!-- Nuclear Core Energy Dots (Top and Bottom) -->
+  <circle cx="256" cy="116" r="6" fill="#00F5D4" opacity="0.8" />
+  <circle cx="256" cy="396" r="6" fill="#00F5D4" opacity="0.8" />
+</svg>

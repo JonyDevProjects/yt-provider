@@ -9,12 +9,12 @@ const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '..');
 const DIST_DIR = path.join(ROOT_DIR, 'dist');
 const STAGING_DIR = path.join(ROOT_DIR, 'dist', 'plugin-staging');
-const EXTERNAL_STAGING_DIR = path.resolve(ROOT_DIR, '..', 'music-provider-plugin');
+const EXTERNAL_STAGING_DIR = path.resolve(ROOT_DIR, '..', 'nucleartube-plugin');
 const OFFICIAL_ZIP = path.join(ROOT_DIR, 'plugin.zip');
-const LEGACY_ZIP = path.join(ROOT_DIR, 'music-provider-plugin.zip');
+const LEGACY_ZIP = path.join(ROOT_DIR, 'nucleartube.zip');
 
 async function packagePlugin() {
-  console.log('📦 Starting MusicProvider Nuclear Plugin packaging...');
+  console.log('📦 Starting NuclearTube Plugin packaging...');
 
   // 1. Build bundle with tsup
   console.log('🔨 Building standalone bundle with tsup...');
@@ -32,22 +32,19 @@ async function packagePlugin() {
   const rootPkg = JSON.parse(fs.readFileSync(rootPkgPath, 'utf8'));
 
   const cleanManifest = {
-    name: rootPkg.name || 'yt-provider',
+    name: rootPkg.name || 'nucleartube',
     version: rootPkg.version || '1.0.0',
-    description: rootPkg.description || 'High-performance YouTube music search and streaming provider utilizing yt-dlp',
+    description: rootPkg.description || 'High-performance YouTube music search, playlist extraction, and streaming provider for Nuclear utilizing yt-dlp',
     author: rootPkg.author || 'iJonyDev',
     main: 'index.js',
     category: 'streaming',
     categories: ['streaming', 'metadata'],
     nuclear: rootPkg.nuclear || {
-      displayName: 'YouTube Provider',
+      displayName: 'NuclearTube',
       category: 'streaming',
       categories: ['streaming', 'metadata'],
-      permissions: ['net'],
-      icon: {
-        type: 'link',
-        link: 'https://raw.githubusercontent.com/nukeop/nuclear/master/packages/ui/assets/logo.svg'
-      }
+      permissions: [],
+      icon: rootPkg.nuclear?.icon
     }
   };
 
@@ -67,13 +64,15 @@ async function packagePlugin() {
 
   // Also sync external dev staging folder if available for Nuclear manual testing
   try {
-    if (fs.existsSync(EXTERNAL_STAGING_DIR)) {
-      fs.rmSync(EXTERNAL_STAGING_DIR, { recursive: true, force: true });
+    for (const extDir of [EXTERNAL_STAGING_DIR, path.resolve(ROOT_DIR, '..', 'music-provider-plugin')]) {
+      if (fs.existsSync(extDir)) {
+        fs.rmSync(extDir, { recursive: true, force: true });
+      }
+      fs.mkdirSync(extDir, { recursive: true });
+      fs.copyFileSync(bundlePath, path.join(extDir, 'index.js'));
+      fs.writeFileSync(path.join(extDir, 'package.json'), JSON.stringify(cleanManifest, null, 2) + '\n', 'utf8');
+      console.log(`🔄 Synced clean staging to ${extDir}`);
     }
-    fs.mkdirSync(EXTERNAL_STAGING_DIR, { recursive: true });
-    fs.copyFileSync(bundlePath, path.join(EXTERNAL_STAGING_DIR, 'index.js'));
-    fs.writeFileSync(path.join(EXTERNAL_STAGING_DIR, 'package.json'), JSON.stringify(cleanManifest, null, 2) + '\n', 'utf8');
-    console.log(`🔄 Synced clean staging to ${EXTERNAL_STAGING_DIR}`);
   } catch (err: any) {
     console.warn(`⚠️ Could not sync external staging dir: ${err.message}`);
   }

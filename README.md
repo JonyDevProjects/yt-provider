@@ -1,38 +1,39 @@
-# yt-provider (YouTube Provider for Nuclear)
+# NuclearTube (YouTube Provider for Nuclear)
 
-[![CI](https://github.com/JonyDevProjects/yt-provider/actions/workflows/ci.yml/badge.svg)](https://github.com/JonyDevProjects/yt-provider/actions/workflows/ci.yml)
-[![Release](https://github.com/JonyDevProjects/yt-provider/actions/workflows/release.yml/badge.svg)](https://github.com/JonyDevProjects/yt-provider/actions/workflows/release.yml)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/JonyDevProjects/yt-provider/releases/tag/v1.0.0)
+[![CI](https://github.com/JonyDevProjects/nucleartube/actions/workflows/ci.yml/badge.svg)](https://github.com/JonyDevProjects/nucleartube/actions/workflows/ci.yml)
+[![Release](https://github.com/JonyDevProjects/nucleartube/actions/workflows/release.yml/badge.svg)](https://github.com/JonyDevProjects/nucleartube/actions/workflows/release.yml)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/JonyDevProjects/nucleartube/releases/tag/v1.0.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**yt-provider** is a YouTube streaming, metadata, and playlist provider plugin for [Nuclear Music Player](https://nuclear.js.org/) built with `@nuclearplayer/plugin-sdk`.
+**NuclearTube** is a high-performance YouTube streaming, metadata, and playlist provider plugin for [Nuclear Music Player](https://nuclear.js.org/) built with `@nuclearplayer/plugin-sdk` and powered by `yt-dlp`.
 
 ## Features
 
 - **YouTube Track Search & Metadata**: Track search and discovery using isomorphic scraping without requiring YouTube Data API keys.
 - **Direct Stream Playback**: Resolves audio streams directly through Nuclear's native `api.Ytdlp` with safe HTTP range parameters.
 - **YouTube Playlists**: Fetches and imports public YouTube playlists by URL.
-- **Lightweight Bundle**: Self-contained CommonJS bundle (~9 KB) with zero external runtime dependencies.
+- **Ultra-Lightweight Bundle**: Self-contained CommonJS bundle (~9 KB) with **zero external runtime dependencies**.
+- **Offline Icon**: Embedded high-resolution vector icon rendered natively via Base64 Data URI.
 
 ## Installation
 
 ### From Nuclear Plugin Store
 1. Open Nuclear.
 2. Navigate to **Settings** > **Plugins** > **Store**.
-3. Find **YouTube Provider** (`yt-provider`) and click **Install**.
+3. Find **NuclearTube** (`nucleartube`) and click **Install**.
 
 ### Manual Installation (Development)
 1. Clone this repository:
    ```bash
-   git clone https://github.com/JonyDevProjects/yt-provider.git
-   cd yt-provider
+   git clone https://github.com/JonyDevProjects/nucleartube.git
+   cd nucleartube
    npm install
    ```
 2. Build the standalone bundle and package archive:
    ```bash
    npm run package
    ```
-3. In Nuclear, go to **Settings** > **Plugins** > **Add Plugin** and select the staging folder (`dist/plugin-staging`).
+3. In Nuclear, go to **Settings** > **Plugins** > **Add Plugin** and select the staging folder (`dist/plugin-staging` or `../nucleartube-plugin`).
 
 ## Development
 
