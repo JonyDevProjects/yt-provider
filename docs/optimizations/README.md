@@ -1,15 +1,16 @@
-# Plan de Optimización de Rendimiento del Plugin MusicProvider
+# Plan de Optimización de Rendimiento: yt-provider
 
-**Estado**: 📋 Planificado (Post-Fase 4)
-**Objetivo**: Implementar, comparar mediante benchmarks y adoptar las mejores alternativas para minimizar la latencia de búsqueda y streaming dentro del sandbox de Nuclear sin requerir modificaciones en el backend de Nuclear.
+**Estado**: 📋 Especificación y Plan de Benchmarking Activo  
+**Objetivo**: Implementar, comparar mediante benchmarks reproducibles y adoptar la optimización de búsqueda mediante Innertube JSON API para minimizar la latencia y el ancho de banda dentro del sandbox de Nuclear sin modificar el backend Rust de Nuclear.
 
 ---
 
 ## 1. Documentos del Plan
 
-- [benchmark-spec.md](./benchmark-spec.md) — Especificación del harness de pruebas y métricas (latencia p50/p95, payload transferido, tasa de aciertos de caché).
-- [alternativas-spec.md](./alternativas-spec.md) — Diseño técnico de cada alternativa a evaluar (YouTube Mobile, Piped/Invidious API, descompresión JS `fflate`, LRU Search Cache).
-- [decision-and-results.md](./decision-and-results.md) — Resultados del benchmark, análisis estadístico y decisión final adoptada.
+- **[innertube-search-optimization-plan.md](./innertube-search-optimization-plan.md)** — **Plan Maestro de Optimización:** Especificación detallada del paso a paso, medición de línea base vs. Innertube JSON API y protocolo de benchmarking.
+- [nuclear-plugin-latency-2026-08-18.md](./nuclear-plugin-latency-2026-08-18.md) — Análisis de latencia histórica y optimizaciones previas en el plugin.
+- [lessons-learned.md](./lessons-learned.md) — Lecciones aprendidas en el sandbox de Tauri/Nuclear.
+- [alternativas-spec.md](./alternativas-spec.md) — Evaluación conceptual de arquitecturas alternativas.
 
 ---
 

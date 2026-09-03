@@ -1,0 +1,1734 @@
+{
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "nodeVersion": "v24.15.0",
+    "osRelease": "25.5.0",
+    "cpus": "Apple M1 Pro",
+    "totalMemory": "16384.00 MB"
+  },
+  "htmlResult": {
+    "model": "html",
+    "modelName": "Modelo Base HTML (Regex ytInitialData)",
+    "timestamp": "2026-08-25T11:41:34.518Z",
+    "iterationsPerQuery": 5,
+    "trackMetrics": [
+      {
+        "query": "Queen - We Will Rock You",
+        "track": {
+          "id": "L_LUpnjgPso",
+          "title": "We Will Rock You",
+          "artist": "Queen",
+          "category": "short",
+          "durationSec": 134,
+          "description": "Canción corta (~2m), rock clásico, alta disponibilidad"
+        },
+        "samples": [
+          {
+            "networkMs": 703.1315830000001,
+            "parseMs": 14.833916999999929,
+            "totalMs": 717.9655,
+            "payloadBytes": 1335578,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 1136.2821670000003,
+            "parseMs": 6.669916000000285,
+            "totalMs": 1142.9520830000006,
+            "payloadBytes": 1354642,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 945.5757499999995,
+            "parseMs": 5.702625000000808,
+            "totalMs": 951.2783750000003,
+            "payloadBytes": 1352050,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 802.5793749999993,
+            "parseMs": 6.002958000000035,
+            "totalMs": 808.5823329999994,
+            "payloadBytes": 1352064,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 1348.3040420000007,
+            "parseMs": 18.26695800000016,
+            "totalMs": 1366.5710000000008,
+            "payloadBytes": 1354193,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 703.13,
+          "max": 1348.3,
+          "mean": 987.17,
+          "median": 945.58,
+          "p50": 945.58,
+          "p95": 1305.9,
+          "p99": 1339.82,
+          "stddev": 232.01
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 5.7,
+          "max": 18.27,
+          "mean": 10.3,
+          "median": 6.67,
+          "p50": 6.67,
+          "p95": 17.58,
+          "p99": 18.13,
+          "stddev": 5.23
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 717.97,
+          "max": 1366.57,
+          "mean": 997.47,
+          "median": 951.28,
+          "p50": 951.28,
+          "p95": 1321.85,
+          "p99": 1357.63,
+          "stddev": 233.81
+        },
+        "avgPayloadBytes": 1349705.4
+      },
+      {
+        "query": "Rick Astley - Never Gonna Give You Up",
+        "track": {
+          "id": "dQw4w9WgXcQ",
+          "title": "Never Gonna Give You Up",
+          "artist": "Rick Astley",
+          "category": "standard",
+          "durationSec": 213,
+          "description": "Canción estándar (~3.5m), pop clásico, CDN ultra-caliente"
+        },
+        "samples": [
+          {
+            "networkMs": 802.1584579999999,
+            "parseMs": 6.659291999998459,
+            "totalMs": 808.8177499999983,
+            "payloadBytes": 1357757,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 1166.3198330000014,
+            "parseMs": 5.786791999998968,
+            "totalMs": 1172.1066250000003,
+            "payloadBytes": 1353068,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 1019.106749999999,
+            "parseMs": 6.671707999999853,
+            "totalMs": 1025.7784579999989,
+            "payloadBytes": 1370226,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 806.2493340000001,
+            "parseMs": 5.657749999998487,
+            "totalMs": 811.9070839999986,
+            "payloadBytes": 1359087,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 985.0985839999994,
+            "parseMs": 9.767416999999114,
+            "totalMs": 994.8660009999985,
+            "payloadBytes": 1401468,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 802.16,
+          "max": 1166.32,
+          "mean": 955.79,
+          "median": 985.1,
+          "p50": 985.1,
+          "p95": 1136.88,
+          "p99": 1160.43,
+          "stddev": 137.95
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 5.66,
+          "max": 9.77,
+          "mean": 6.91,
+          "median": 6.66,
+          "p50": 6.66,
+          "p95": 9.15,
+          "p99": 9.64,
+          "stddev": 1.49
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 808.82,
+          "max": 1172.11,
+          "mean": 962.7,
+          "median": 994.87,
+          "p50": 994.87,
+          "p95": 1142.84,
+          "p99": 1166.25,
+          "stddev": 138.05
+        },
+        "avgPayloadBytes": 1368321.2
+      },
+      {
+        "query": "Radiohead - Creep",
+        "track": {
+          "id": "XFkzRNyygfk",
+          "title": "Creep",
+          "artist": "Radiohead",
+          "category": "standard",
+          "durationSec": 239,
+          "description": "Canción estándar (~4m), rock alternativo (referencia en curl-timing.sh)"
+        },
+        "samples": [
+          {
+            "networkMs": 865.609457999999,
+            "parseMs": 5.447833000000173,
+            "totalMs": 871.0572909999992,
+            "payloadBytes": 1339932,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 1033.7175420000003,
+            "parseMs": 8.594250000000102,
+            "totalMs": 1042.3117920000004,
+            "payloadBytes": 1342218,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 1054.7907919999998,
+            "parseMs": 5.741957999998704,
+            "totalMs": 1060.5327499999985,
+            "payloadBytes": 1337871,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 987.2766659999979,
+            "parseMs": 14.658707999999024,
+            "totalMs": 1001.935373999997,
+            "payloadBytes": 1354464,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 817.1617499999993,
+            "parseMs": 7.508042000001296,
+            "totalMs": 824.6697920000006,
+            "payloadBytes": 1337376,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 817.16,
+          "max": 1054.79,
+          "mean": 951.71,
+          "median": 987.28,
+          "p50": 987.28,
+          "p95": 1050.58,
+          "p99": 1053.95,
+          "stddev": 93.95
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 5.45,
+          "max": 14.66,
+          "mean": 8.39,
+          "median": 7.51,
+          "p50": 7.51,
+          "p95": 13.45,
+          "p99": 14.42,
+          "stddev": 3.34
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 824.67,
+          "max": 1060.53,
+          "mean": 960.1,
+          "median": 1001.94,
+          "p50": 1001.94,
+          "p95": 1056.89,
+          "p99": 1059.8,
+          "stddev": 94.73
+        },
+        "avgPayloadBytes": 1342372.2
+      },
+      {
+        "query": "PSY - Gangnam Style",
+        "track": {
+          "id": "9bZkp7q19f0",
+          "title": "Gangnam Style",
+          "artist": "PSY",
+          "category": "standard",
+          "durationSec": 252,
+          "description": "Canción estándar (~4.2m), K-pop, multi-stream CDN"
+        },
+        "samples": [
+          {
+            "networkMs": 794.276332999998,
+            "parseMs": 15.843916000001627,
+            "totalMs": 810.1202489999996,
+            "payloadBytes": 1338693,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 954.8212920000005,
+            "parseMs": 4.442583000000013,
+            "totalMs": 959.2638750000006,
+            "payloadBytes": 1115214,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 1406.1890410000015,
+            "parseMs": 7.681250000001455,
+            "totalMs": 1413.870291000003,
+            "payloadBytes": 1336880,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 920.2334169999995,
+            "parseMs": 5.929665999999997,
+            "totalMs": 926.1630829999995,
+            "payloadBytes": 1355872,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 1061.4123330000002,
+            "parseMs": 16.75091600000087,
+            "totalMs": 1078.163249000001,
+            "payloadBytes": 1360059,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 794.28,
+          "max": 1406.19,
+          "mean": 1027.39,
+          "median": 954.82,
+          "p50": 954.82,
+          "p95": 1337.23,
+          "p99": 1392.4,
+          "stddev": 207.72
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 4.44,
+          "max": 16.75,
+          "mean": 10.13,
+          "median": 7.68,
+          "p50": 7.68,
+          "p95": 16.57,
+          "p99": 16.71,
+          "stddev": 5.15
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 810.12,
+          "max": 1413.87,
+          "mean": 1037.52,
+          "median": 959.26,
+          "p50": 959.26,
+          "p95": 1346.73,
+          "p99": 1400.44,
+          "stddev": 206.65
+        },
+        "avgPayloadBytes": 1301343.6
+      },
+      {
+        "query": "Luis Fonsi - Despacito ft. Daddy Yankee",
+        "track": {
+          "id": "kJQP7kiw5Fk",
+          "title": "Despacito ft. Daddy Yankee",
+          "artist": "Luis Fonsi",
+          "category": "standard",
+          "durationSec": 282,
+          "description": "Canción estándar (~4.7m), pop urbano latino"
+        },
+        "samples": [
+          {
+            "networkMs": 990.5064169999969,
+            "parseMs": 8.113540999998804,
+            "totalMs": 998.6199579999957,
+            "payloadBytes": 1353003,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 841.1964580000022,
+            "parseMs": 5.669167000000016,
+            "totalMs": 846.8656250000022,
+            "payloadBytes": 1337406,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 835.1735420000005,
+            "parseMs": 7.578750000000582,
+            "totalMs": 842.752292000001,
+            "payloadBytes": 1337592,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 991.6987079999999,
+            "parseMs": 12.55566700000054,
+            "totalMs": 1004.2543750000004,
+            "payloadBytes": 1334339,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 801.4329170000019,
+            "parseMs": 5.597625000002154,
+            "totalMs": 807.0305420000041,
+            "payloadBytes": 1335652,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 801.43,
+          "max": 991.7,
+          "mean": 892,
+          "median": 841.2,
+          "p50": 841.2,
+          "p95": 991.46,
+          "p99": 991.65,
+          "stddev": 82.04
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 5.6,
+          "max": 12.56,
+          "mean": 7.9,
+          "median": 7.58,
+          "p50": 7.58,
+          "p95": 11.67,
+          "p99": 12.38,
+          "stddev": 2.53
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 807.03,
+          "max": 1004.25,
+          "mean": 899.9,
+          "median": 846.87,
+          "p50": 846.87,
+          "p95": 1003.13,
+          "p99": 1004.03,
+          "stddev": 84.07
+        },
+        "avgPayloadBytes": 1339598.4
+      },
+      {
+        "query": "Queen - Bohemian Rhapsody",
+        "track": {
+          "id": "fJ9rUzIMcZQ",
+          "title": "Bohemian Rhapsody",
+          "artist": "Queen",
+          "category": "standard",
+          "durationSec": 359,
+          "description": "Canción estándar-larga (~6m), rock sinfónico con cambios dinámicos"
+        },
+        "samples": [
+          {
+            "networkMs": 817.1008330000004,
+            "parseMs": 6.171749999997701,
+            "totalMs": 823.2725829999981,
+            "payloadBytes": 1336951,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 1492.8481249999968,
+            "parseMs": 6.145292000001064,
+            "totalMs": 1498.9934169999979,
+            "payloadBytes": 1349163,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 926.3943749999962,
+            "parseMs": 10.34354099999473,
+            "totalMs": 936.737915999991,
+            "payloadBytes": 1333591,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 1011.698292000001,
+            "parseMs": 8.829250000002503,
+            "totalMs": 1020.5275420000035,
+            "payloadBytes": 1342522,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 1013.194958,
+            "parseMs": 8.442707999995037,
+            "totalMs": 1021.6376659999951,
+            "payloadBytes": 1335225,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 817.1,
+          "max": 1492.85,
+          "mean": 1052.25,
+          "median": 1011.7,
+          "p50": 1011.7,
+          "p95": 1396.92,
+          "p99": 1473.66,
+          "stddev": 231.7
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 6.15,
+          "max": 10.34,
+          "mean": 7.99,
+          "median": 8.44,
+          "p50": 8.44,
+          "p95": 10.04,
+          "p99": 10.28,
+          "stddev": 1.62
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 823.27,
+          "max": 1498.99,
+          "mean": 1060.23,
+          "median": 1020.53,
+          "p50": 1020.53,
+          "p95": 1403.52,
+          "p99": 1479.9,
+          "stddev": 231.07
+        },
+        "avgPayloadBytes": 1339490.4
+      },
+      {
+        "query": "Led Zeppelin - Stairway to Heaven",
+        "track": {
+          "id": "QkF3oxziUI4",
+          "title": "Stairway to Heaven",
+          "artist": "Led Zeppelin",
+          "category": "long",
+          "durationSec": 482,
+          "description": "Canción larga (~8m), rock progresivo clásico"
+        },
+        "samples": [
+          {
+            "networkMs": 819.4003750000047,
+            "parseMs": 5.444125000001804,
+            "totalMs": 824.8445000000065,
+            "payloadBytes": 1342767,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 864.8465829999986,
+            "parseMs": 14.721082999996725,
+            "totalMs": 879.5676659999954,
+            "payloadBytes": 1339194,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 809.2175420000058,
+            "parseMs": 6.8470410000009,
+            "totalMs": 816.0645830000067,
+            "payloadBytes": 1326960,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 996.3578749999942,
+            "parseMs": 10.574582999994163,
+            "totalMs": 1006.9324579999884,
+            "payloadBytes": 1340083,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 1178.7238330000037,
+            "parseMs": 6.079417000000831,
+            "totalMs": 1184.8032500000045,
+            "payloadBytes": 1342315,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 809.22,
+          "max": 1178.72,
+          "mean": 933.71,
+          "median": 864.85,
+          "p50": 864.85,
+          "p95": 1142.25,
+          "p99": 1171.43,
+          "stddev": 139.47
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 5.44,
+          "max": 14.72,
+          "mean": 8.73,
+          "median": 6.85,
+          "p50": 6.85,
+          "p95": 13.89,
+          "p99": 14.56,
+          "stddev": 3.48
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 816.06,
+          "max": 1184.8,
+          "mean": 942.44,
+          "median": 879.57,
+          "p50": 879.57,
+          "p95": 1149.23,
+          "p99": 1177.69,
+          "stddev": 139.03
+        },
+        "avgPayloadBytes": 1338263.8
+      },
+      {
+        "query": "Dire Straits - Sultans Of Swing (Alchemy Live)",
+        "track": {
+          "id": "8Pa9x9fZBtY",
+          "title": "Sultans Of Swing (Alchemy Live)",
+          "artist": "Dire Straits",
+          "category": "long",
+          "durationSec": 667,
+          "description": "Canción larga (~11m), directo extendido"
+        },
+        "samples": [
+          {
+            "networkMs": 848.5054170000003,
+            "parseMs": 7.3683339999988675,
+            "totalMs": 855.8737509999992,
+            "payloadBytes": 1345065,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 852.3255419999987,
+            "parseMs": 21.638999999995576,
+            "totalMs": 873.9645419999943,
+            "payloadBytes": 1361780,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 998.3352500000037,
+            "parseMs": 15.109834000002593,
+            "totalMs": 1013.4450840000063,
+            "payloadBytes": 1362078,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 952.2388750000027,
+            "parseMs": 7.995167000000947,
+            "totalMs": 960.2340420000037,
+            "payloadBytes": 1365256,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 862.7585409999956,
+            "parseMs": 5.809083000000101,
+            "totalMs": 868.5676239999957,
+            "payloadBytes": 1329818,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 848.51,
+          "max": 998.34,
+          "mean": 902.83,
+          "median": 862.76,
+          "p50": 862.76,
+          "p95": 989.12,
+          "p99": 996.49,
+          "stddev": 61.11
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 5.81,
+          "max": 21.64,
+          "mean": 11.58,
+          "median": 8,
+          "p50": 8,
+          "p95": 20.33,
+          "p99": 21.38,
+          "stddev": 5.96
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 855.87,
+          "max": 1013.45,
+          "mean": 914.42,
+          "median": 873.96,
+          "p50": 873.96,
+          "p95": 1002.8,
+          "p99": 1011.32,
+          "stddev": 61.76
+        },
+        "avgPayloadBytes": 1352799.4
+      },
+      {
+        "query": "Pink Floyd - Echoes (Live at Pompeii)",
+        "track": {
+          "id": "bM7SZ5SBzyY",
+          "title": "Echoes (Live at Pompeii)",
+          "artist": "Pink Floyd",
+          "category": "long",
+          "durationSec": 990,
+          "description": "Canción muy larga (~16.5m), suite psicodélica"
+        },
+        "samples": [
+          {
+            "networkMs": 1065.2249579999989,
+            "parseMs": 6.676832999997714,
+            "totalMs": 1071.9017909999966,
+            "payloadBytes": 1351242,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 779.2706249999974,
+            "parseMs": 12.893541999997979,
+            "totalMs": 792.1641669999954,
+            "payloadBytes": 1345204,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 886.3441660000026,
+            "parseMs": 8.053333000003477,
+            "totalMs": 894.3974990000061,
+            "payloadBytes": 1364189,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 926.305042,
+            "parseMs": 5.6369160000031115,
+            "totalMs": 931.9419580000031,
+            "payloadBytes": 1343432,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 865.2535839999982,
+            "parseMs": 10.865333000001556,
+            "totalMs": 876.1189169999998,
+            "payloadBytes": 1348618,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 779.27,
+          "max": 1065.22,
+          "mean": 904.48,
+          "median": 886.34,
+          "p50": 886.34,
+          "p95": 1037.44,
+          "p99": 1059.67,
+          "stddev": 93.66
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 5.64,
+          "max": 12.89,
+          "mean": 8.83,
+          "median": 8.05,
+          "p50": 8.05,
+          "p95": 12.49,
+          "p99": 12.81,
+          "stddev": 2.69
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 792.16,
+          "max": 1071.9,
+          "mean": 913.3,
+          "median": 894.4,
+          "p50": 894.4,
+          "p95": 1043.91,
+          "p99": 1066.3,
+          "stddev": 91.56
+        },
+        "avgPayloadBytes": 1350537
+      },
+      {
+        "query": "Lofi Girl / Chillhop - Lofi Hip Hop Chill Beats - Study Mix",
+        "track": {
+          "id": "TURbeWK2wwg",
+          "title": "Lofi Hip Hop Chill Beats - Study Mix",
+          "artist": "Lofi Girl / Chillhop",
+          "category": "mix",
+          "durationSec": 1800,
+          "description": "Mix continuo (~30m), caso de estrés para streaming/range-requests"
+        },
+        "samples": [
+          {
+            "networkMs": 1040.052042000003,
+            "parseMs": 6.782624999999825,
+            "totalMs": 1046.8346670000028,
+            "payloadBytes": 1466464,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 947.5081659999996,
+            "parseMs": 8.912125000002561,
+            "totalMs": 956.4202910000022,
+            "payloadBytes": 1491643,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 928.7637079999986,
+            "parseMs": 9.553166999998211,
+            "totalMs": 938.3168749999968,
+            "payloadBytes": 1824467,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 896.8359169999967,
+            "parseMs": 11.52404199999728,
+            "totalMs": 908.359958999994,
+            "payloadBytes": 1506920,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 811.3585000000021,
+            "parseMs": 6.8813329999975394,
+            "totalMs": 818.2398329999996,
+            "payloadBytes": 1506217,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 811.36,
+          "max": 1040.05,
+          "mean": 924.9,
+          "median": 928.76,
+          "p50": 928.76,
+          "p95": 1021.54,
+          "p99": 1036.35,
+          "stddev": 74.12
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 6.78,
+          "max": 11.52,
+          "mean": 8.73,
+          "median": 8.91,
+          "p50": 8.91,
+          "p95": 11.13,
+          "p99": 11.45,
+          "stddev": 1.77
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 818.24,
+          "max": 1046.83,
+          "mean": 933.63,
+          "median": 938.32,
+          "p50": 938.32,
+          "p95": 1028.75,
+          "p99": 1043.22,
+          "stddev": 73.91
+        },
+        "avgPayloadBytes": 1559142.2
+      }
+    ],
+    "overallNetworkMetrics": {
+      "count": 50,
+      "min": 703.13,
+      "max": 1492.85,
+      "mean": 953.22,
+      "median": 927.58,
+      "p50": 927.58,
+      "p95": 1271.99,
+      "p99": 1450.39,
+      "stddev": 157.8
+    },
+    "overallParseMetrics": {
+      "count": 50,
+      "min": 4.44,
+      "max": 21.64,
+      "mean": 8.95,
+      "median": 7.54,
+      "p50": 7.54,
+      "p95": 16.34,
+      "p99": 19.99,
+      "stddev": 3.89
+    },
+    "overallTotalMetrics": {
+      "count": 50,
+      "min": 717.97,
+      "max": 1498.99,
+      "mean": 962.17,
+      "median": 937.53,
+      "p50": 937.53,
+      "p95": 1284.78,
+      "p99": 1457.28,
+      "stddev": 157.84
+    },
+    "overallAvgPayloadBytes": 1364157.36
+  },
+  "innertubeResult": {
+    "model": "innertube",
+    "modelName": "Modelo Innertube JSON (WEB_REMIX API)",
+    "timestamp": "2026-08-25T11:42:28.904Z",
+    "iterationsPerQuery": 5,
+    "trackMetrics": [
+      {
+        "query": "Queen - We Will Rock You",
+        "track": {
+          "id": "L_LUpnjgPso",
+          "title": "We Will Rock You",
+          "artist": "Queen",
+          "category": "short",
+          "durationSec": 134,
+          "description": "Canción corta (~2m), rock clásico, alta disponibilidad"
+        },
+        "samples": [
+          {
+            "networkMs": 1017.2765829999989,
+            "parseMs": 1.5348749999975553,
+            "totalMs": 1018.8114579999965,
+            "payloadBytes": 239965,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 781.8053749999963,
+            "parseMs": 1.807042000000365,
+            "totalMs": 783.6124169999966,
+            "payloadBytes": 240429,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 598.1591249999983,
+            "parseMs": 3.030749999998079,
+            "totalMs": 601.1898749999964,
+            "payloadBytes": 240111,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 526.8354169999948,
+            "parseMs": 1.3151669999933802,
+            "totalMs": 528.1505839999882,
+            "payloadBytes": 240370,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 884.7085829999996,
+            "parseMs": 1.7259999999951106,
+            "totalMs": 886.4345829999947,
+            "payloadBytes": 239797,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 526.84,
+          "max": 1017.28,
+          "mean": 761.76,
+          "median": 781.81,
+          "p50": 781.81,
+          "p95": 990.76,
+          "p99": 1011.97,
+          "stddev": 180.42
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 1.32,
+          "max": 3.03,
+          "mean": 1.88,
+          "median": 1.73,
+          "p50": 1.73,
+          "p95": 2.79,
+          "p99": 2.98,
+          "stddev": 0.6
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 528.15,
+          "max": 1018.81,
+          "mean": 763.64,
+          "median": 783.61,
+          "p50": 783.61,
+          "p95": 992.34,
+          "p99": 1013.52,
+          "stddev": 180.24
+        },
+        "avgPayloadBytes": 240134.4
+      },
+      {
+        "query": "Rick Astley - Never Gonna Give You Up",
+        "track": {
+          "id": "dQw4w9WgXcQ",
+          "title": "Never Gonna Give You Up",
+          "artist": "Rick Astley",
+          "category": "standard",
+          "durationSec": 213,
+          "description": "Canción estándar (~3.5m), pop clásico, CDN ultra-caliente"
+        },
+        "samples": [
+          {
+            "networkMs": 738.2272090000042,
+            "parseMs": 3.5195830000011483,
+            "totalMs": 741.7467920000054,
+            "payloadBytes": 240549,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 890.9366659999941,
+            "parseMs": 3.4795000000012806,
+            "totalMs": 894.4161659999954,
+            "payloadBytes": 240804,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 687.1579999999958,
+            "parseMs": 3.3110409999935655,
+            "totalMs": 690.4690409999894,
+            "payloadBytes": 240492,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 812.9557499999937,
+            "parseMs": 3.2883339999971213,
+            "totalMs": 816.2440839999908,
+            "payloadBytes": 240526,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 700.9519169999985,
+            "parseMs": 4.3732920000038575,
+            "totalMs": 705.3252090000024,
+            "payloadBytes": 240421,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 687.16,
+          "max": 890.94,
+          "mean": 766.05,
+          "median": 738.23,
+          "p50": 738.23,
+          "p95": 875.34,
+          "p99": 887.82,
+          "stddev": 76.2
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 3.29,
+          "max": 4.37,
+          "mean": 3.59,
+          "median": 3.48,
+          "p50": 3.48,
+          "p95": 4.2,
+          "p99": 4.34,
+          "stddev": 0.4
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 690.47,
+          "max": 894.42,
+          "mean": 769.64,
+          "median": 741.75,
+          "p50": 741.75,
+          "p95": 878.78,
+          "p99": 891.29,
+          "stddev": 76.06
+        },
+        "avgPayloadBytes": 240558.4
+      },
+      {
+        "query": "Radiohead - Creep",
+        "track": {
+          "id": "XFkzRNyygfk",
+          "title": "Creep",
+          "artist": "Radiohead",
+          "category": "standard",
+          "durationSec": 239,
+          "description": "Canción estándar (~4m), rock alternativo (referencia en curl-timing.sh)"
+        },
+        "samples": [
+          {
+            "networkMs": 668.4886669999978,
+            "parseMs": 3.7229169999918668,
+            "totalMs": 672.2115839999897,
+            "payloadBytes": 216433,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 572.5067920000001,
+            "parseMs": 1.5268329999962589,
+            "totalMs": 574.0336249999964,
+            "payloadBytes": 216331,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 649.0412079999951,
+            "parseMs": 6.52879200001189,
+            "totalMs": 655.570000000007,
+            "payloadBytes": 216011,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 714.4686669999937,
+            "parseMs": 4.599958000006154,
+            "totalMs": 719.0686249999999,
+            "payloadBytes": 216483,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 613.3514999999898,
+            "parseMs": 3.312625000005937,
+            "totalMs": 616.6641249999957,
+            "payloadBytes": 216365,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 572.51,
+          "max": 714.47,
+          "mean": 643.57,
+          "median": 649.04,
+          "p50": 649.04,
+          "p95": 705.27,
+          "p99": 712.63,
+          "stddev": 48.25
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 1.53,
+          "max": 6.53,
+          "mean": 3.94,
+          "median": 3.72,
+          "p50": 3.72,
+          "p95": 6.14,
+          "p99": 6.45,
+          "stddev": 1.64
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 574.03,
+          "max": 719.07,
+          "mean": 647.51,
+          "median": 655.57,
+          "p50": 655.57,
+          "p95": 709.7,
+          "p99": 717.19,
+          "stddev": 49.29
+        },
+        "avgPayloadBytes": 216324.6
+      },
+      {
+        "query": "PSY - Gangnam Style",
+        "track": {
+          "id": "9bZkp7q19f0",
+          "title": "Gangnam Style",
+          "artist": "PSY",
+          "category": "standard",
+          "durationSec": 252,
+          "description": "Canción estándar (~4.2m), K-pop, multi-stream CDN"
+        },
+        "samples": [
+          {
+            "networkMs": 597.016082999995,
+            "parseMs": 3.3472919999912847,
+            "totalMs": 600.3633749999863,
+            "payloadBytes": 234228,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 740.846624999991,
+            "parseMs": 2.343249999990803,
+            "totalMs": 743.1898749999818,
+            "payloadBytes": 234129,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 1243.4868750000023,
+            "parseMs": 1.3798340000066673,
+            "totalMs": 1244.866709000009,
+            "payloadBytes": 234977,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 802.2646250000107,
+            "parseMs": 6.351916999992682,
+            "totalMs": 808.6165420000034,
+            "payloadBytes": 236774,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 893.1641249999957,
+            "parseMs": 2.788875000012922,
+            "totalMs": 895.9530000000086,
+            "payloadBytes": 236922,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 597.02,
+          "max": 1243.49,
+          "mean": 855.36,
+          "median": 802.26,
+          "p50": 802.26,
+          "p95": 1173.42,
+          "p99": 1229.47,
+          "stddev": 216.68
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 1.38,
+          "max": 6.35,
+          "mean": 3.24,
+          "median": 2.79,
+          "p50": 2.79,
+          "p95": 5.75,
+          "p99": 6.23,
+          "stddev": 1.68
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 600.36,
+          "max": 1244.87,
+          "mean": 858.6,
+          "median": 808.62,
+          "p50": 808.62,
+          "p95": 1175.08,
+          "p99": 1230.91,
+          "stddev": 215.92
+        },
+        "avgPayloadBytes": 235406
+      },
+      {
+        "query": "Luis Fonsi - Despacito ft. Daddy Yankee",
+        "track": {
+          "id": "kJQP7kiw5Fk",
+          "title": "Despacito ft. Daddy Yankee",
+          "artist": "Luis Fonsi",
+          "category": "standard",
+          "durationSec": 282,
+          "description": "Canción estándar (~4.7m), pop urbano latino"
+        },
+        "samples": [
+          {
+            "networkMs": 1024.445583000008,
+            "parseMs": 3.7272910000028787,
+            "totalMs": 1028.1728740000108,
+            "payloadBytes": 239728,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 797.0579580000049,
+            "parseMs": 5.056375000000116,
+            "totalMs": 802.114333000005,
+            "payloadBytes": 239830,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 778.3252079999947,
+            "parseMs": 2.8223330000037095,
+            "totalMs": 781.1475409999985,
+            "payloadBytes": 239830,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 657.3668329999928,
+            "parseMs": 3.525791999985813,
+            "totalMs": 660.8926249999786,
+            "payloadBytes": 239800,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 1261.9099169999972,
+            "parseMs": 1.2317499999917345,
+            "totalMs": 1263.141666999989,
+            "payloadBytes": 239802,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 657.37,
+          "max": 1261.91,
+          "mean": 903.82,
+          "median": 797.06,
+          "p50": 797.06,
+          "p95": 1214.42,
+          "p99": 1252.41,
+          "stddev": 214.79
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 1.23,
+          "max": 5.06,
+          "mean": 3.27,
+          "median": 3.53,
+          "p50": 3.53,
+          "p95": 4.79,
+          "p99": 5,
+          "stddev": 1.25
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 660.89,
+          "max": 1263.14,
+          "mean": 907.09,
+          "median": 802.11,
+          "p50": 802.11,
+          "p95": 1216.15,
+          "p99": 1253.74,
+          "stddev": 213.98
+        },
+        "avgPayloadBytes": 239798
+      },
+      {
+        "query": "Queen - Bohemian Rhapsody",
+        "track": {
+          "id": "fJ9rUzIMcZQ",
+          "title": "Bohemian Rhapsody",
+          "artist": "Queen",
+          "category": "standard",
+          "durationSec": 359,
+          "description": "Canción estándar-larga (~6m), rock sinfónico con cambios dinámicos"
+        },
+        "samples": [
+          {
+            "networkMs": 673.734832999995,
+            "parseMs": 4.267625000007683,
+            "totalMs": 678.0024580000027,
+            "payloadBytes": 239703,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 561.7825830000074,
+            "parseMs": 4.362124999999651,
+            "totalMs": 566.1447080000071,
+            "payloadBytes": 239635,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 1167.2939580000093,
+            "parseMs": 4.8147919999901205,
+            "totalMs": 1172.1087499999994,
+            "payloadBytes": 239703,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 694.0967910000036,
+            "parseMs": 2.9868750000023283,
+            "totalMs": 697.0836660000059,
+            "payloadBytes": 239771,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 965.5396659999969,
+            "parseMs": 5.599625000002561,
+            "totalMs": 971.1392909999995,
+            "payloadBytes": 239635,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 561.78,
+          "max": 1167.29,
+          "mean": 812.49,
+          "median": 694.1,
+          "p50": 694.1,
+          "p95": 1126.94,
+          "p99": 1159.22,
+          "stddev": 221.56
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 2.99,
+          "max": 5.6,
+          "mean": 4.41,
+          "median": 4.36,
+          "p50": 4.36,
+          "p95": 5.44,
+          "p99": 5.57,
+          "stddev": 0.85
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 566.14,
+          "max": 1172.11,
+          "mean": 816.9,
+          "median": 697.08,
+          "p50": 697.08,
+          "p95": 1131.91,
+          "p99": 1164.07,
+          "stddev": 222.03
+        },
+        "avgPayloadBytes": 239689.4
+      },
+      {
+        "query": "Led Zeppelin - Stairway to Heaven",
+        "track": {
+          "id": "QkF3oxziUI4",
+          "title": "Stairway to Heaven",
+          "artist": "Led Zeppelin",
+          "category": "long",
+          "durationSec": 482,
+          "description": "Canción larga (~8m), rock progresivo clásico"
+        },
+        "samples": [
+          {
+            "networkMs": 642.6220840000024,
+            "parseMs": 4.196041999995941,
+            "totalMs": 646.8181259999983,
+            "payloadBytes": 240738,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 943.0249579999945,
+            "parseMs": 1.3694589999940945,
+            "totalMs": 944.3944169999886,
+            "payloadBytes": 240806,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 657.6495839999989,
+            "parseMs": 1.9741250000079162,
+            "totalMs": 659.6237090000068,
+            "payloadBytes": 240772,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 696.6828329999989,
+            "parseMs": 6.557375000003958,
+            "totalMs": 703.2402080000029,
+            "payloadBytes": 240772,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 747.8515410000109,
+            "parseMs": 7.98895800000173,
+            "totalMs": 755.8404990000126,
+            "payloadBytes": 240806,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 642.62,
+          "max": 943.02,
+          "mean": 737.57,
+          "median": 696.68,
+          "p50": 696.68,
+          "p95": 903.99,
+          "p99": 935.22,
+          "stddev": 108.99
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 1.37,
+          "max": 7.99,
+          "mean": 4.42,
+          "median": 4.2,
+          "p50": 4.2,
+          "p95": 7.7,
+          "p99": 7.93,
+          "stddev": 2.56
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 646.82,
+          "max": 944.39,
+          "mean": 741.98,
+          "median": 703.24,
+          "p50": 703.24,
+          "p95": 906.68,
+          "p99": 936.85,
+          "stddev": 108.17
+        },
+        "avgPayloadBytes": 240778.8
+      },
+      {
+        "query": "Dire Straits - Sultans Of Swing (Alchemy Live)",
+        "track": {
+          "id": "8Pa9x9fZBtY",
+          "title": "Sultans Of Swing (Alchemy Live)",
+          "artist": "Dire Straits",
+          "category": "long",
+          "durationSec": 667,
+          "description": "Canción larga (~11m), directo extendido"
+        },
+        "samples": [
+          {
+            "networkMs": 546.1300000000047,
+            "parseMs": 2.830958999998984,
+            "totalMs": 548.9609590000036,
+            "payloadBytes": 182860,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 511.30275000000256,
+            "parseMs": 2.615458000000217,
+            "totalMs": 513.9182080000028,
+            "payloadBytes": 182860,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 588.0157920000056,
+            "parseMs": 3.3499579999916023,
+            "totalMs": 591.3657499999972,
+            "payloadBytes": 182928,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 464.53212500001246,
+            "parseMs": 1.0700829999987036,
+            "totalMs": 465.60220800001116,
+            "payloadBytes": 182962,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 1852.9657910000096,
+            "parseMs": 2.65975000000617,
+            "totalMs": 1855.6255410000158,
+            "payloadBytes": 183040,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 464.53,
+          "max": 1852.97,
+          "mean": 792.59,
+          "median": 546.13,
+          "p50": 546.13,
+          "p95": 1599.98,
+          "p99": 1802.37,
+          "stddev": 531.74
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 1.07,
+          "max": 3.35,
+          "mean": 2.51,
+          "median": 2.66,
+          "p50": 2.66,
+          "p95": 3.25,
+          "p99": 3.33,
+          "stddev": 0.76
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 465.6,
+          "max": 1855.63,
+          "mean": 795.09,
+          "median": 548.96,
+          "p50": 548.96,
+          "p95": 1602.77,
+          "p99": 1805.06,
+          "stddev": 531.87
+        },
+        "avgPayloadBytes": 182930
+      },
+      {
+        "query": "Pink Floyd - Echoes (Live at Pompeii)",
+        "track": {
+          "id": "bM7SZ5SBzyY",
+          "title": "Echoes (Live at Pompeii)",
+          "artist": "Pink Floyd",
+          "category": "long",
+          "durationSec": 990,
+          "description": "Canción muy larga (~16.5m), suite psicodélica"
+        },
+        "samples": [
+          {
+            "networkMs": 1015.7787919999973,
+            "parseMs": 2.871500000008382,
+            "totalMs": 1018.6502920000057,
+            "payloadBytes": 191226,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 802.2698749999981,
+            "parseMs": 2.7416249999951106,
+            "totalMs": 805.0114999999932,
+            "payloadBytes": 191154,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 906.4946249999921,
+            "parseMs": 3.7212500000023283,
+            "totalMs": 910.2158749999944,
+            "payloadBytes": 191220,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 520.2717080000002,
+            "parseMs": 0.8445000000065193,
+            "totalMs": 521.1162080000067,
+            "payloadBytes": 191195,
+            "resultCount": 10
+          },
+          {
+            "networkMs": 753.6490830000112,
+            "parseMs": 1.2550420000043232,
+            "totalMs": 754.9041250000155,
+            "payloadBytes": 191188,
+            "resultCount": 10
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 520.27,
+          "max": 1015.78,
+          "mean": 799.69,
+          "median": 802.27,
+          "p50": 802.27,
+          "p95": 993.92,
+          "p99": 1011.41,
+          "stddev": 166.31
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 0.84,
+          "max": 3.72,
+          "mean": 2.29,
+          "median": 2.74,
+          "p50": 2.74,
+          "p95": 3.55,
+          "p99": 3.69,
+          "stddev": 1.07
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 521.12,
+          "max": 1018.65,
+          "mean": 801.98,
+          "median": 805.01,
+          "p50": 805.01,
+          "p95": 996.96,
+          "p99": 1014.31,
+          "stddev": 167.19
+        },
+        "avgPayloadBytes": 191196.6
+      },
+      {
+        "query": "Lofi Girl / Chillhop - Lofi Hip Hop Chill Beats - Study Mix",
+        "track": {
+          "id": "TURbeWK2wwg",
+          "title": "Lofi Hip Hop Chill Beats - Study Mix",
+          "artist": "Lofi Girl / Chillhop",
+          "category": "mix",
+          "durationSec": 1800,
+          "description": "Mix continuo (~30m), caso de estrés para streaming/range-requests"
+        },
+        "samples": [
+          {
+            "networkMs": 578.9269579999964,
+            "parseMs": 1.994250000003376,
+            "totalMs": 580.9212079999998,
+            "payloadBytes": 171342,
+            "resultCount": 8
+          },
+          {
+            "networkMs": 1499.4737500000047,
+            "parseMs": 2.572874999998021,
+            "totalMs": 1502.0466250000027,
+            "payloadBytes": 173694,
+            "resultCount": 8
+          },
+          {
+            "networkMs": 877.4410000000062,
+            "parseMs": 2.375832999998238,
+            "totalMs": 879.8168330000044,
+            "payloadBytes": 173057,
+            "resultCount": 8
+          },
+          {
+            "networkMs": 1904.960540999993,
+            "parseMs": 2.2613750000018626,
+            "totalMs": 1907.221915999995,
+            "payloadBytes": 174104,
+            "resultCount": 8
+          },
+          {
+            "networkMs": 849.8461669999961,
+            "parseMs": 2.033332999999402,
+            "totalMs": 851.8794999999955,
+            "payloadBytes": 173696,
+            "resultCount": 8
+          }
+        ],
+        "networkMetrics": {
+          "count": 5,
+          "min": 578.93,
+          "max": 1904.96,
+          "mean": 1142.13,
+          "median": 877.44,
+          "p50": 877.44,
+          "p95": 1823.86,
+          "p99": 1888.74,
+          "stddev": 486.27
+        },
+        "parseMetrics": {
+          "count": 5,
+          "min": 1.99,
+          "max": 2.57,
+          "mean": 2.25,
+          "median": 2.26,
+          "p50": 2.26,
+          "p95": 2.53,
+          "p99": 2.56,
+          "stddev": 0.22
+        },
+        "totalMetrics": {
+          "count": 5,
+          "min": 580.92,
+          "max": 1907.22,
+          "mean": 1144.38,
+          "median": 879.82,
+          "p50": 879.82,
+          "p95": 1826.19,
+          "p99": 1891.01,
+          "stddev": 486.39
+        },
+        "avgPayloadBytes": 173178.6
+      }
+    ],
+    "overallNetworkMetrics": {
+      "count": 50,
+      "min": 464.53,
+      "max": 1904.96,
+      "mean": 821.5,
+      "median": 744.35,
+      "p50": 744.35,
+      "p95": 1392.57,
+      "p99": 1879.48,
+      "stddev": 299.84
+    },
+    "overallParseMetrics": {
+      "count": 50,
+      "min": 0.84,
+      "max": 7.99,
+      "mean": 3.18,
+      "median": 2.93,
+      "p50": 2.93,
+      "p95": 6.45,
+      "p99": 7.29,
+      "stddev": 1.56
+    },
+    "overallTotalMetrics": {
+      "count": 50,
+      "min": 465.6,
+      "max": 1907.22,
+      "mean": 824.68,
+      "median": 749.05,
+      "p50": 749.05,
+      "p95": 1394.54,
+      "p99": 1881.94,
+      "stddev": 299.68
+    },
+    "overallAvgPayloadBytes": 219999.48
+  }
+}

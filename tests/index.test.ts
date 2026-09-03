@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { NuclearPluginAPI, StreamingProvider, PlaylistProvider } from '@nuclearplayer/plugin-sdk';
 import plugin from '../src/index.js';
+import { clearSearchCache } from '../src/core/ytScraper.js';
 
 describe('Nuclear Plugin Integration', () => {
   let registeredProvider: StreamingProvider | undefined;
@@ -29,6 +30,7 @@ describe('Nuclear Plugin Integration', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    clearSearchCache();
     registeredProvider = undefined;
     registeredPlaylistProvider = undefined;
   });
