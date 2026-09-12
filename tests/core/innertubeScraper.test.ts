@@ -284,16 +284,10 @@ describe('Innertube Scraper', () => {
       };
 
       const results = parseInnertubeResponse(cardData, 10);
-      expect(results).toHaveLength(3);
-      expect(results[0]).toEqual({
-        id: 'heroQueen1',
-        title: 'Queen Hero',
-        duration: null,
-        thumbnail: 'https://i.ytimg.com/vi/heroQueen1/hqdefault.jpg',
-        channel: 'Queen Official'
-      });
-      expect(results[1].id).toBe('childQueen2');
-      expect(results[2].id).toBe('sectionItem3');
+      // Hero card is skipped when it has child items (child items are the actual tracks)
+      expect(results).toHaveLength(2);
+      expect(results[0].id).toBe('childQueen2');
+      expect(results[1].id).toBe('sectionItem3');
     });
 
     it('should test getThumbnailUrl fallback behavior', () => {

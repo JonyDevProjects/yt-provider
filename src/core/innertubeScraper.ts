@@ -49,11 +49,18 @@ function parseResponsiveItem(renderer: any): SearchResult | null {
     renderer.overlay?.musicItemThumbnailOverlayRenderer?.content?.musicThumbnailOverlayTimeStatusRenderer?.text?.runs?.[0]?.text ||
     '';
 
-  if (!durationStr && Array.isArray(artistRuns)) {
-    for (const run of artistRuns) {
-      if (run.text && /^\d+:\d+(:\d+)?$/.test(run.text.trim())) {
-        durationStr = run.text.trim();
-        break;
+  // Search for duration in all flex columns (not just artist column)
+  if (!durationStr && Array.isArray(renderer.flexColumns)) {
+    for (const col of renderer.flexColumns) {
+      const runs = col?.musicResponsiveListItemFlexColumnRenderer?.text?.runs;
+      if (Array.isArray(runs)) {
+        for (const run of runs) {
+          if (run.text && /^\d+:\d+(:\d+)?$/.test(run.text.trim())) {
+            durationStr = run.text.trim();
+            break;
+          }
+        }
+        if (durationStr) break;
       }
     }
   }
@@ -101,26 +108,34 @@ export function parseInnertubeResponse(json: any, limit: number = 10): SearchRes
     // 1. Music Card Shelf (Top Result / Hero Card + child items)
     if (section.musicCardShelfRenderer) {
       const card = section.musicCardShelfRenderer;
-      const cardVideoId =
-        card.title?.runs?.[0]?.navigationEndpoint?.watchEndpoint?.videoId ||
-        card.buttons?.[0]?.buttonRenderer?.navigationEndpoint?.watchEndpoint?.videoId;
-      if (cardVideoId) {
-        const title = card.title?.runs?.map((r: any) => r.text).join('') || card.header?.musicCardShelfHeaderBasicRenderer?.title?.runs?.[0]?.text || 'Unknown';
-        const channel = card.subtitle?.runs?.[0]?.text || null;
-        const thumbs = card.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails || card.thumbnail?.musicThumbnailRenderer?.thumbnails || [];
-        const thumbnail = getThumbnailUrl(cardVideoId, thumbs);
-        musicResults.push({
-          id: cardVideoId,
-          title,
-          duration: null,
-          thumbnail,
-          channel
-        });
-      }
+      
+      // Add child items from card contents (these are the actual tracks with correct videoIds)
       if (Array.isArray(card.contents)) {
         for (const item of card.contents) {
           const parsed = parseResponsiveItem(item.musicResponsiveListItemRenderer || item);
           if (parsed) musicResults.push(parsed);
+        }
+      }
+      
+      // Only add the hero card if it has child items (indicates it's a track, not album/playlist)
+      // and if the hero card itself has a valid videoId
+      if (musicResults.length === 0 && card.contents?.length === 0) {
+        const cardVideoId =
+          card.title?.runs?.[0]?.navigationEndpoint?.watchEndpoint?.videoId ||
+          card.buttons?.[0]?.buttonRenderer?.navigationEndpoint?.watchEndpoint?.videoId;
+        
+        if (cardVideoId) {
+          const title = card.title?.runs?.map((r: any) => r.text).join('') || card.header?.musicCardShelfHeaderBasicRenderer?.title?.runs?.[0]?.text || 'Unknown';
+          const channel = card.subtitle?.runs?.[0]?.text || null;
+          const thumbs = card.thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails || card.thumbnail?.musicThumbnailRenderer?.thumbnails || [];
+          const thumbnail = getThumbnailUrl(cardVideoId, thumbs);
+          musicResults.push({
+            id: cardVideoId,
+            title,
+            duration: null,
+            thumbnail,
+            channel
+          });
         }
       }
     }
