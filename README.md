@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/JonyDevProjects/nucleartube/actions/workflows/ci.yml/badge.svg)](https://github.com/JonyDevProjects/nucleartube/actions/workflows/ci.yml)
 [![Release](https://github.com/JonyDevProjects/nucleartube/actions/workflows/release.yml/badge.svg)](https://github.com/JonyDevProjects/nucleartube/actions/workflows/release.yml)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/JonyDevProjects/nucleartube/releases/tag/v1.0.0)
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/JonyDevProjects/nucleartube/releases/tag/v1.1.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **NuclearTube** is a high-performance YouTube streaming, metadata, and playlist provider plugin for [Nuclear Music Player](https://nuclear.js.org/) built with `@nuclearplayer/plugin-sdk` and powered by `yt-dlp`.
@@ -10,9 +10,11 @@
 ## Features
 
 - **YouTube Track Search & Metadata**: Track search and discovery using isomorphic scraping without requiring YouTube Data API keys.
+- **YouTube Mobile Scraper**: Optimized scraping via `m.youtube.com` — 1.2x-2.3x faster with 56% smaller payloads.
+- **Tiered Fallback Architecture**: Resilient search chain: mobile → desktop → yt-dlp.
 - **Direct Stream Playback**: Resolves audio streams directly through Nuclear's native `api.Ytdlp` with safe HTTP range parameters.
 - **YouTube Playlists**: Fetches and imports public YouTube playlists by URL.
-- **Ultra-Lightweight Bundle**: Self-contained CommonJS bundle (~9 KB) with **zero external runtime dependencies**.
+- **Ultra-Lightweight Bundle**: Self-contained CommonJS bundle (~12 KB) with **zero external runtime dependencies**.
 - **Offline Icon**: Embedded high-resolution vector icon rendered natively via Base64 Data URI.
 
 ## Installation

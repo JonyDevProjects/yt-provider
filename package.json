@@ -1,6 +1,6 @@
 {
   "name": "nucleartube",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "High-performance YouTube music search, playlist extraction, and streaming provider for Nuclear utilizing yt-dlp",
   "author": "iJonyDev",
   "category": "streaming",
