@@ -42,20 +42,14 @@ src/
 - [architecture_mapping.md](./nuclear-plugin/architecture_mapping.md) — Mapeo de tipos y correspondencia entre yt-provider y Nuclear SDK.
 - [integration_guide.md](./nuclear-plugin/integration_guide.md) — Guía práctica para probar e instalar el plugin en Nuclear Desktop.
 
-### 🗺️ 2. Fases de Evolución y Roadmap (`docs/future-roadmap/`)
-- [future_roadmap_and_architecture.md](./future-roadmap/future_roadmap_and_architecture.md) — Visión global de evolución.
-- **[Fase 5: Publicación en Nuclear Plugin Store](./future-roadmap/phase5/)**:
-  - [README.md](./future-roadmap/phase5/README.md) — Requisitos de publicación en Nuclear Plugin Store.
-  - [session-log.md](./future-roadmap/phase5/session-log.md) — Bitácora de la Fase 5 y entrega del PR oficial.
-
-### 🧪 3. Estrategia de Pruebas (`docs/testing/`)
+### 🧪 2. Estrategia de Pruebas (`docs/testing/`)
 - [README.md](./testing/README.md) — Guía de pruebas automatizadas (Vitest) y verificación manual en Nuclear Desktop con Tauri DevTools.
 
-### 📊 4. Optimizaciones y Lecciones Aprendidas (`docs/optimizations/`)
+### 📊 3. Optimizaciones y Lecciones Aprendidas (`docs/optimizations/`)
 - [nuclear-plugin-latency-2026-08-18.md](./optimizations/nuclear-plugin-latency-2026-08-18.md) — Análisis de latencia en búsqueda y reproducción.
 - [lessons-learned.md](./optimizations/lessons-learned.md) — Lecciones aprendidas en el entorno sandbox de Tauri/Nuclear.
 
-### 📖 5. Referencias Técnicas (`docs/reference/`)
+### 📖 4. Referencias Técnicas (`docs/reference/`)
 - [dependency_analysis.md](./reference/dependency_analysis.md) — Justificación técnica del stack de desarrollo.
 - [gitflow.md](./reference/gitflow.md) — Políticas de ramas, releases y convenciones de commits.
 

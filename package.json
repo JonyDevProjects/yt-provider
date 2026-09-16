@@ -19,7 +19,8 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report tests/e2e-report",
-    "benchmark:all": "tsx benchmarks/runner.ts"
+    "benchmark:all": "tsx benchmarks/runner.ts",
+    "benchmark:search": "tsx benchmarks/search-scraper.ts"
   },
   "devDependencies": {
     "@nuclearplayer/plugin-sdk": "^2.8.0",
