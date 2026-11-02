@@ -11,6 +11,9 @@ import type {
   MetadataProvider
 } from '@nuclearplayer/plugin-sdk';
 import { scrapeYoutube as coreScrapeYoutube } from './core/ytScraper.js';
+import { resolveHlsStream } from './core/hlsManifest.js';
+import { resolveWebmStream, toWebmStream } from './core/webmResolver.js';
+import { resolveItag18Stream, toItag18Stream } from './core/itag18Resolver.js';
 import type { StreamData, HttpLike, SearchResult } from './core/types.js';
 
 const PROVIDER_ID = 'nucleartube';
@@ -74,18 +77,36 @@ function toStream(url: string, info: StreamData, sourceId: string): Stream {
 
 function createHttpAdapter(api: NuclearPluginAPI): HttpLike {
   return {
-    fetch: async (url: string, init?: { headers?: Record<string, string>; method?: string }) => {
+    fetch: async (url: string, init?: { headers?: Record<string, string>; method?: string; body?: string }) => {
       // Do NOT send manual Accept-Encoding when using reqwest default client without gzip feature,
       // as reqwest will return raw compressed binary bytes into response.text() causing string corruption.
       const res = await api.Http.fetch(url, {
         headers: init?.headers,
-        method: init?.method
+        method: init?.method,
+        body: init?.body,
       });
       const body = typeof res.body === 'string' ? res.body : await (res as any).text?.() || '';
       return {
         status: res.status,
         body,
-        headers: (res as any).headers
+        headers: (res as any).headers,
+        bytes: async () => {
+          if (typeof (res as any).bytes === 'function') {
+            return await (res as any).bytes();
+          }
+          if (typeof (res as any).arrayBuffer === 'function') {
+            return new Uint8Array(await (res as any).arrayBuffer());
+          }
+          if ((res as any).body instanceof Uint8Array) {
+            return (res as any).body;
+          }
+          const str = typeof res.body === 'string' ? res.body : await (res as any).text?.() || '';
+          const buf = new Uint8Array(str.length);
+          for (let i = 0; i < str.length; i++) {
+            buf[i] = str.charCodeAt(i) & 0xff;
+          }
+          return buf;
+        },
       };
     }
   };
@@ -153,6 +174,79 @@ const plugin: NuclearPlugin = {
         }
         const sdkInfo = await api.Ytdlp.getStream(candidateId);
         const info = sdkToInternal(sdkInfo);
+
+        const isFmp4 =
+          !info.container ||
+          info.container.includes('m4a') ||
+          info.container.includes('mp4') ||
+          info.codec?.includes('mp4a') ||
+          info.codec?.includes('aac');
+
+        // Handling long tracks (>= 3600s) to bypass Nuclear's 8KB sidx limitation in openMseSession.ts
+        if (isFmp4 && info.duration && info.duration >= 3600) {
+          const http = createHttpAdapter(api);
+          const strategy = (globalThis as any).__NUCLEARTUBE_STRATEGY__ || 'auto';
+
+          // Strategy 1: Alternative 1 - Synthetic HLS M3U8 Generator (RFC 8216)
+          if (strategy === 'hls' || strategy === 'auto') {
+            try {
+              console.log(
+                `[${PROVIDER_NAME}] Resolving long stream (${info.duration}s) via Alternative 1: Synthetic HLS`,
+              );
+              return await resolveHlsStream(
+                http,
+                info.streamUrl,
+                candidateId,
+                STREAMING_ID,
+                info.duration,
+              );
+            } catch (error) {
+              console.warn(
+                `[${PROVIDER_NAME}] Synthetic HLS failed for ${candidateId}:`,
+                error,
+              );
+              if (strategy !== 'auto') {
+                return toStream(info.streamUrl, info, candidateId);
+              }
+            }
+          }
+
+          // Strategy 2: Alternative 3 - Progressive WebM Opus (itag 251)
+          if (strategy === 'webm' || strategy === 'auto') {
+            try {
+              console.log(
+                `[${PROVIDER_NAME}] Resolving long stream (${info.duration}s) via Alternative 3: WebM Opus (itag 251)`,
+              );
+              const webmUrl = await resolveWebmStream(http, candidateId);
+              return toWebmStream(webmUrl, info.duration, candidateId, STREAMING_ID);
+            } catch (error) {
+              console.warn(
+                `[${PROVIDER_NAME}] WebM Opus resolution failed for ${candidateId}:`,
+                error,
+              );
+              if (strategy !== 'auto') {
+                return toStream(info.streamUrl, info, candidateId);
+              }
+            }
+          }
+
+          // Strategy 3: Alternative 2 - Fallback to Progressive itag 18 (MP4 360p multiplexed)
+          if (strategy === 'itag18' || strategy === 'auto') {
+            try {
+              console.log(
+                `[${PROVIDER_NAME}] Resolving long stream (${info.duration}s) via Alternative 2: Progressive itag 18`,
+              );
+              const itag18Url = await resolveItag18Stream(http, candidateId);
+              return toItag18Stream(itag18Url, info.duration, candidateId, STREAMING_ID);
+            } catch (error) {
+              console.warn(
+                `[${PROVIDER_NAME}] Progressive itag 18 failed for ${candidateId}:`,
+                error,
+              );
+            }
+          }
+        }
+
         return toStream(info.streamUrl, info, candidateId);
       },
     };
