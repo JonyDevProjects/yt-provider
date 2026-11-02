@@ -1,8 +1,9 @@
-# PROMPT PARA SIGUIENTE SESIÓN: PRUEBAS EN NUCLEAR DEV MODE Y DELEGACIÓN A WORKERS
+# PROMPT PARA SIGUIENTE SESIÓN: INVESTIGACIÓN PROFUNDA Y RESOLUCIÓN DEFINITIVA DE STREAMS LARGOS (> 1h30m) EN NUCLEAR
 
 ## Contexto de Arranque
-Nos encontramos en el repositorio `MusicProvider` (`NuclearTube`) en la rama `fix/long-stream-playback`.
-Se resolvieron las 3 alternativas técnicas para el error de streams largos (> 1h30m, Issue #1). La suite de tests cuenta con **106/106 tests pasando** y el bundle está empaquetado y sincronizado en la carpeta de staging limpia `/Users/jonathanquishpe/JoniDev/nucleartube-plugin`.
+- **Repositorio**: `MusicProvider` (`NuclearTube`) en la rama `fix/long-stream-playback`.
+- **Repositorio Hermano**: `/Users/jonathanquishpe/JoniDev/nuclear` (Tauri Desktop Player).
+- **Staging Plugin**: `/Users/jonathanquishpe/JoniDev/nucleartube-plugin`.
 
 ---
 
@@ -12,50 +13,91 @@ Se resolvieron las 3 alternativas técnicas para el error de streams largos (> 1
 Eres "Michael" (god), orquestador autónomo de la oficina de agentes en /Users/jonathanquishpe/JoniDev/MusicProvider/hive.
 
 ### MISIÓN:
-Ejecutar el protocolo de pruebas manuales y validación en vivo del plugin NuclearTube dentro del entorno de desarrollo de Nuclear (Tauri desktop), monitorizando la consola DevTools, verificando la reproducción de pistas de larga duración (> 1h30m, 2h, 3h), delegando las tareas de monitoreo, análisis y corrección de incidencias a trabajadores especializados mediante spawn-requests.
-
-### CONTEXTO TÉCNICO Y ESTADO ACTUAL:
-1. **Solución Implementada**:
-   - Alternativa 1 (Campeona): Generación en memoria de playlist sintético HLS (#EXT-X-BYTERANGE) para tracks >= 3600s, eludiendo el límite de 8 KB de openMseSession.ts en Nuclear y delegando a Hls.js (useHlsSource.ts).
-   - Alternativa 2 (itag 18 Faststart) y Alternativa 3 (WebM Opus itag 251) como fallbacks automáticos.
-   - Selector en tiempo de ejecución: window.__NUCLEARTUBE_STRATEGY__ = 'hls' | 'webm' | 'itag18' | 'auto'.
-2. **Ubicación del Plugin Staged**:
-   - `/Users/jonathanquishpe/JoniDev/nucleartube-plugin` (contiene solo index.js compilado y package.json, listo para "Add Plugin").
-3. **Repositorio Nuclear**:
-   - `/Users/jonathanquishpe/JoniDev/nuclear/packages/player`
+Investigar a fondo y solucionar de forma definitiva el fallo de reproducción de pistas de larga duración (> 1h30m, 2h, 3h) en Nuclear Desktop. En las pruebas de usuario en vivo, la reproducción no inicia y la consola de DevTools arroja `unsupportedFormat` tras agotar los fallbacks. Investigar las limitaciones de runtime de Nuclear, la arquitectura de plugins comunitarios (`NuclearPlayer/nuclear-plugin-youtube`) y diseñar la solución técnica real y funcional.
 
 ---
 
-### TAREAS A DELEGAR A WORKERS (Spawn Requests en `hive/spawn-requests/`):
+### DIAGNÓSTICO EXACTO DEL FALLO EN VIVO:
 
-1. **Worker 1: `worker-devrunner` (Tauri Dev Runner & Log Monitor)**
-   - **Objetivo**: Levantar Nuclear en modo escritorio con `pnpm tauri dev` en `/Users/jonathanquishpe/JoniDev/nuclear/packages/player`.
-   - **Monitoreo**: Supervisar la salida estándar de Rust/Tauri y los logs en consola (`[Plugin]`, `[NuclearTube]`, `[Core:Scraper]`, `[cache]`, peticiones HTTP 206 de rango).
-   - **Alertas**: Notificar a god de cualquier error de carga de plugin, fallo de decodificación o advertencias de WebKit.
+1. **¿Por qué falló la Alternativa 1 (HLS Sintético M3U8 en Data URI)?**
+   - El plugin generó un Data URI RFC 8216 con `#EXT-X-BYTERANGE` y `protocol: 'hls'`.
+   - En Nuclear (`packages/player/src/services/streamResolution/audioSource.ts`):
+     ```typescript
+     if (stream.protocol === 'hls') {
+       return { url: stream.url, protocol: 'hls' };
+     }
+     ```
+     Nuclear pasa el Data URI directo al reproductor **sin proxyar** las URLs de los segmentos a través del servidor local Rust (`http://127.0.0.1:${port}/stream/...`).
+   - Los segmentos apuntan a `https://rr---sn-....googlevideo.com/videoplayback?...`.
+   - En WebKit/macOS:
+     * Si corre `Hls.js`, las peticiones XHR/fetch a Google CDN son bloqueadas por **CORS** (YouTube no envía `Access-Control-Allow-Origin: *` a `tauri://localhost` o `http://localhost:5173`).
+     * Si corre AVPlayer nativo, Apple prohíbe que un `data:` URI (origen opaco `null`) realice peticiones de red a orígenes cruzados.
+   - Resultado: El reproductor emite error de carga (`MEDIA_ERR_SRC_NOT_SUPPORTED` / error de red), Nuclear marca el candidato como fallido e inicia la cascada de fallbacks.
 
-2. **Worker 2: `worker-streamqa` (Pruebas de Reproducción y Seeking)**
-   - **Objetivo**: Probar la reproducción en Nuclear de los 3 tracks críticos de prueba:
-     * `eAVXuhIMcJI` (Don Medardo - Concierto Completo, 5410s ~ 1h30m)
-     * `-FlxM_0S2lA` (Best of lofi 2018, 6817s ~ 1h53m)
-     * `J92ryjj42M0` (3 HOURS Relax Ambient Music, 11137s ~ 3h05m)
-   - **Verificaciones**:
-     * Comprobar que no salta el error "unsupportedFormat".
-     * Tiempo de inicio de buffering (< 2 segundos).
-     * Realizar saltos temporales (seeking) a 15m, 45m, 1h15m y 2h.
-     * Evaluar la respuesta bajo las distintas estrategias alternando `window.__NUCLEARTUBE_STRATEGY__`.
+2. **¿Por qué fallaron las Alternativas 2 (itag 18) y 3 (WebM Opus)?**
+   - Ambas dependen de scrapers en JavaScript de la API Innertube sin autenticación.
+   - En tracks largos (conciertos > 1h30m), YouTube exige rotaciones de firma (`n-sig`) y tokens PO (`spc`), devolviendo HTTP 403 o eliminando el formato 18 multiplexado.
 
-3. **Worker 3: `worker-hotfix` (Diagnóstico y Corrección de Incidencias en Caliente)**
-   - **Objetivo**: Si durante las pruebas surge cualquier anomalía (ej. cálculo de offsets de sidx desfasado por 1 byte, problemas con el mime-type en el Data URI, headers HTTP de YouTube, o compatibilidad de Hls.js en macOS):
-     * Aislar la causa raíz con tests de reproducción.
-     * Modificar el módulo correspondiente en `src/core/`.
-     * Re-empaquetar el plugin con `npm run package` para actualizar `/Users/jonathanquishpe/JoniDev/nucleartube-plugin`.
-     * Ejecutar `npm test` para asegurar que el suite continúe 100% verde.
+3. **¿Por qué termina en `unsupportedFormat`?**
+   - Al fallar las 3 alternativas, `src/index.ts` ejecuta el fallback final por defecto:
+     `return toStream(info.streamUrl, info, candidateId);`
+   - Este stream proviene de `api.Ytdlp.getStream()` y es un fMP4 DASH (`container: 'm4a'`).
+   - En `AudioSourceFactory.ts`:
+     ```typescript
+     if (this.isFmp4(stream) && durationMs) {
+       return { url: proxyUrl, protocol: 'mse', durationSeconds, codec };
+     }
+     ```
+   - Nuclear detecta `isFmp4` y lo envía obligatoriamente al motor MSE (`useMseSource` -> `openMseSession.ts`).
+   - `openMseSession.ts` tiene hardcodeado:
+     `const result = await fetcher.fetchRange(0, 8192 - 1, signal);`
+   - Como la pista dura > 1h30m, la caja `sidx` mide más de 8,192 bytes (ej. 8,228 bytes en 1h53m; 13,424 bytes en 3h).
+   - `parseInitSegment` lanza `RangeError: Offset is outside the bounds of the DataView`.
+   - `openMseSession.ts:58` captura el error y lanza:
+     `throw new SoundError('unsupportedFormat');`
+   - La UI de Nuclear muestra: *"El flujo de audio no está en un formato compatible. Prueba con otra fuente para esta canción."*
 
 ---
 
-### INSTRUCCIONES DE ORQUESTACIÓN:
-- Revisa `fleet.json` y `tasks.json`.
-- Registra las tareas en `hive/tasks.json` bajo el prefijo `MPR`.
-- Despacha a los trabajadores mediante contratos formales (Objective, Output, Tools, Boundaries).
-- Mantén actualizado `board.md` y `handoff.md` a medida que se reciban reportes de los workers.
+### LÍNEAS DE INVESTIGACIÓN Y TAREAS PARA LA SESIÓN:
+
+1. **Investigación en la Comunidad de Plugins de Nuclear (`NuclearPlayer`)**:
+   - Analizar el repositorio oficial [`NuclearPlayer/nuclear-plugin-youtube`](https://github.com/NuclearPlayer/nuclear-plugin-youtube) y repositorios hermanos en `NuclearPlayer/plugin-registry`.
+   - ¿Cómo resuelven el streaming los plugins de YouTube existentes? ¿Qué flags pasan a `api.Ytdlp`?
+   - ¿Algún plugin comunitario ha resuelto o reportado problemas con transmisiones de larga duración?
+
+2. **Vía de Solución A: Forzar Extracción WebM Opus (itag 251) mediante el backend `yt-dlp`**:
+   - En `packages/player/src/services/streamResolution/audioSource.ts`:
+     ```typescript
+     private isFmp4(stream: ResolvedStream): boolean {
+       return (
+         stream.container === 'm4a' ||
+         stream.mimeType?.includes('audio/mp4') === true
+       );
+     }
+     ```
+   - Si el stream es WebM Opus (`container: 'webm'`, `mimeType: 'audio/webm'`):
+     * `isFmp4` es **FALSO**.
+     * Nuclear **NO usa MSE** (`openMseSession.ts` nunca se ejecuta y nunca choca con el límite de 8 KB).
+     * Nuclear **SÍ aplica el proxy Rust local** (`proxyUrl = http://127.0.0.1:${port}/stream/${base64}`).
+     * La URL va a `useAudioLoader` (`<audio src="...">`), con soporte de rangos HTTP 206 y sin problemas de CORS.
+   - ¿Puede el plugin solicitar a `api.Ytdlp` o extraer directamente la URL del formato 251 (WebM Opus) con las firmas y tokens de `yt-dlp` nativo?
+
+3. **Vía de Solución B: Proxyar URLs de Segmentos HLS a través del Stream Server de Nuclear**:
+   - Nuclear levanta un servidor de streaming local en Rust (`stream_server.rs`).
+   - Si el plugin pudiera obtener el puerto local del servidor de streaming (`stream_server_port`) o si Nuclear expusiera un helper, las URLs dentro del M3U8 sintético serían:
+     `http://127.0.0.1:${port}/stream/${base64(googleCdnUrl)}`
+   - Esto eliminaría el bloqueo de CORS al 100% en HLS.js. Investigar si el plugin puede invocar `stream_server_port` vía Tauri IPC o deducirlo.
+
+4. **Vía de Solución C: Análisis del Core de Nuclear (`openMseSession.ts`)**:
+   - Determinar si este bug es una deficiencia estructural de Nuclear que debe ser solucionada en el core (`packages/hifi/src/fmp4/openMseSession.ts`) leyendo dinámicamente el tamaño de la caja `sidx` en lugar de limitarse a 8 KB.
+   - Preparar un informe técnico o propuesta de PR para el repositorio `nuclear`.
+
+---
+
+### PLAN DE ACCIÓN REQUERIDO:
+1. Desplegar un worker de investigación para auditar `nuclear-plugin-youtube` y los plugins de la comunidad.
+2. Probar la viabilidad de entregar streams WebM Opus (itag 251) con proxying de Nuclear.
+3. Evaluar si es factible hacer funcionar HLS proxyado o si WebM progresivo es la solución limpia.
+4. Actualizar `tasks.json`, `board.md` y `session-log.md` con los avances y resultados concluyentes.
 ```
