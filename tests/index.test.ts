@@ -108,7 +108,7 @@ describe('Nuclear Plugin Integration', () => {
     expect(candidates[0].id).toBe('vid2');
   });
 
-  it('should get stream URL directly from Ytdlp with safe range', async () => {
+  it('should get stream URL directly from Ytdlp with safe range for short streams', async () => {
     await plugin.onEnable!(mockApi);
     
     // Mock Ytdlp getStream response (snake_case)
@@ -135,6 +135,64 @@ describe('Nuclear Plugin Integration', () => {
       durationMs: 120000,
       source: { provider: 'nucleartube-streaming', id: 'vid1' },
     });
+  });
+
+  it('should format long streams preserving m4a container and audio/mp4 mimeType for MSE playback', async () => {
+    await plugin.onEnable!(mockApi);
+    
+    // Mock Ytdlp getStream response for a 2-hour long stream (7200s)
+    const mockSdkStreamInfo = {
+      stream_url: 'https://example.com/stream-long',
+      duration: 7200,
+      title: '2-Hour Ambient Session',
+      container: 'm4a',
+      codec: 'mp4a.40.2'
+    };
+    (mockApi.Ytdlp.getStream as any).mockResolvedValue(mockSdkStreamInfo);
+
+    const stream = await registeredProvider!.getStreamUrl!('vid_long');
+    
+    expect(mockApi.Ytdlp.getStream).toHaveBeenCalledWith('vid_long');
+    
+    expect(stream).toEqual({
+      url: 'https://example.com/stream-long&range=0-99999999999',
+      protocol: 'https',
+      mimeType: 'audio/mp4',
+      codec: 'mp4a.40.2',
+      container: 'm4a',
+      durationMs: 7200000,
+      source: { provider: 'nucleartube-streaming', id: 'vid_long' },
+    });
+  });
+
+  it('should preserve webm and opus mimeTypes', async () => {
+    await plugin.onEnable!(mockApi);
+    
+    // WebM track
+    (mockApi.Ytdlp.getStream as any).mockResolvedValue({
+      stream_url: 'https://example.com/stream-webm',
+      duration: 7200,
+      title: '2-Hour WebM Mix',
+      container: 'webm',
+      codec: 'opus'
+    });
+
+    const streamWebm = await registeredProvider!.getStreamUrl!('vid_webm');
+    expect(streamWebm.mimeType).toBe('audio/webm');
+    expect(streamWebm.container).toBe('webm');
+
+    // Opus container track
+    (mockApi.Ytdlp.getStream as any).mockResolvedValue({
+      stream_url: 'https://example.com/stream-opus',
+      duration: 5000,
+      title: 'Opus Podcast',
+      container: 'opus',
+      codec: 'opus'
+    });
+
+    const streamOpus = await registeredProvider!.getStreamUrl!('vid_opus');
+    expect(streamOpus.mimeType).toBe('audio/ogg');
+    expect(streamOpus.container).toBe('opus');
   });
 
   it('should fetch and map a playlist', async () => {
