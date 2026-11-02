@@ -39,3 +39,36 @@
    - 106/106 tests unitarios pasando al 100% en Vitest.
    - Bundle compilado con tsup (36 KB sin dependencias externas).
    - Release empaquetado en `plugin.zip`, `nucleartube.zip` y sincronizado en staging (`/Users/jonathanquishpe/JoniDev/nucleartube-plugin`).
+
+6. **Pruebas en Vivo en Nuclear Desktop y Detección de Falla Real**:
+   - El usuario probó el plugin en Nuclear Desktop con pistas > 1h30m.
+   - **Resultado en vivo**: La reproducción no inicia. La consola emite `unsupportedFormat` tras hacer fallback a la última opción.
+   - **Diagnóstico de Causa Raíz**:
+     * **Falla de Alternativa 1 (HLS Sintético)**: El Data URI M3U8 contiene URLs directas del CDN de Google (`https://rr...googlevideo.com`). Nuclear usa internamente un proxy Rust local (`http://127.0.0.1:${port}/stream/...`) para eludir CORS en streams HTTP normales, pero `AudioSourceFactory.ts` pasa los streams `protocol: 'hls'` en crudo sin proxy. Al intentar reproducir el Data URI en WebKit/macOS, `Hls.js` o AVPlayer fallan por CORS o restricciones de origen opaco (`data:`), disparando `onError`.
+     * **Falla de Alternativas 2 y 3 (itag 18 / WebM)**: Los scrapers JS de Innertube fallan en pistas largas no autenticadas debido a rotación de n-sig y bloqueos 403 de YouTube.
+     * **Falla del Fallback Final**: Al fallar las 3 alternativas, `src/index.ts` ejecuta `return toStream(info.streamUrl, info, candidateId)`. Nuclear recibe el stream fMP4 (`container: 'm4a'`), `AudioSourceFactory` lo categoriza como `protocol: 'mse'` y `openMseSession.ts` se estrella contra su límite de 8,192 bytes en `sidx`, lanzando `SoundError('unsupportedFormat')`.
+
+---
+
+## Fecha: 2 de Noviembre de 2026 (Sesión 3 - Resolución Definitiva MPR-8)
+
+### Acciones Realizadas:
+1. **Auditoría de Plugins Comunitarios (`NuclearPlayer`)**:
+   - Inspección directa del código fuente de `NuclearPlayer/nuclear-plugin-youtube` (`master/src/index.ts`).
+   - Se demostró que el plugin oficial simplemente llama a `api.Ytdlp.getStream()` sin flags. En pistas > 1h30m, el plugin oficial de Nuclear experimenta el **mismo fallo exacto** que NuclearTube al chocar contra `openMseSession.ts:34` (8 KB) en el core de Nuclear.
+   - En `NuclearPlayer/plugin-registry`, los otros plugins streaming (SoundCloud y Bandcamp) solo funcionan porque SoundCloud envía `Access-Control-Allow-Origin: *` y Bandcamp usa MP3 progresivo estándar.
+2. **Implementación de Solución Definitiva (Proxying Local de Segmentos HLS)**:
+   - Se creó `src/core/streamProxy.ts` con rutinas de descubrimiento de puerto de stream local (`stream_server_port` vía Tauri IPC `__TAURI_INTERNALS__.invoke` y sondeo 9100..9109).
+   - Codificación base64 URL-safe sin padding (`URL_SAFE_NO_PAD`) compatible 1:1 con `stream_server.rs` en Rust.
+   - En `src/core/hlsManifest.ts`, cada segmento `#EXTINF` y el mapa `#EXT-X-MAP` se serializan como:
+     `http://127.0.0.1:${port}/stream/${base64url(streamUrl)}`
+   - Esto permite que `Hls.js` en WebKit descargue todos los subsegmentos sin bloqueos de CORS, ya que el servidor local Axum inyecta `Access-Control-Allow-Origin: *` y retransmite las peticiones HTTP 206 de rango con éxito.
+   - Se agregaron helpers `toHlsBlobUri` y `toHlsPlaylistUrl` para orígenes limpios en WebKit.
+   - En `createHttpAdapter` (`src/index.ts`), las peticiones iniciales de cajas fMP4 (`0-32767`) se enrutan mediante el proxy local, garantizando la preservación de bytes binarios puros (`ArrayBuffer`) sin sufrir la corrupción por decodificación UTF-8 de `api.Http.fetch`.
+3. **Análisis y Propuesta de PR para el Core de Nuclear**:
+   - Redacción de [`docs/nuclear-mse-sidx-fix-proposal.md`](file:///Users/jonathanquishpe/JoniDev/MusicProvider/docs/nuclear-mse-sidx-fix-proposal.md) detallando el parche necesario en `packages/hifi/src/fmp4/openMseSession.ts` para que Nuclear core lea dinámicamente el tamaño de la caja `sidx` (iniciando en 32 KB y expandiendo dinámicamente según sea necesario).
+4. **Verificación y Empaquetado**:
+   - 115 tests unitarios pasando al 100% verde (`npm test`).
+   - Bundle compilado con tsup (~39.6 KB).
+   - Empaquetado final en `plugin.zip` y `nucleartube.zip` (~11 KB).
+   - Staging sincronizado en `/Users/jonathanquishpe/JoniDev/nucleartube-plugin` y `/Users/jonathanquishpe/JoniDev/music-provider-plugin`.

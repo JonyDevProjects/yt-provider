@@ -12,6 +12,7 @@ import type {
 } from '@nuclearplayer/plugin-sdk';
 import { scrapeYoutube as coreScrapeYoutube } from './core/ytScraper.js';
 import { resolveHlsStream } from './core/hlsManifest.js';
+import { getStreamServerPort, buildProxiedStreamUrl } from './core/streamProxy.js';
 import { resolveWebmStream, toWebmStream } from './core/webmResolver.js';
 import { resolveItag18Stream, toItag18Stream } from './core/itag18Resolver.js';
 import type { StreamData, HttpLike, SearchResult } from './core/types.js';
@@ -82,7 +83,19 @@ function createHttpAdapter(api: NuclearPluginAPI): HttpLike {
       // if available in webview to preserve pristine ArrayBuffer bytes without lossy UTF-8 IPC conversions.
       if (typeof globalThis.fetch === 'function' && init?.headers?.Range) {
         try {
-          const directRes = await globalThis.fetch(url, {
+          // If accessing Google Video CDN directly from webview, proxy via Nuclear's local stream server
+          // to bypass CORS block and obtain pristine binary ArrayBuffer without UTF-8 corruption.
+          let fetchTargetUrl = url;
+          if (url.includes('googlevideo.com') || (!url.startsWith('http://127.0.0.1') && !url.startsWith('http://localhost'))) {
+            try {
+              const port = await getStreamServerPort();
+              fetchTargetUrl = buildProxiedStreamUrl(url, port);
+            } catch {
+              // keep original url
+            }
+          }
+
+          const directRes = await globalThis.fetch(fetchTargetUrl, {
             headers: init.headers,
             method: init.method || 'GET',
             body: init.body,

@@ -8,6 +8,7 @@ import {
   resolveHlsStream,
   type SidxData,
 } from '../../src/core/hlsManifest.js';
+import { encodeStreamUrlBase64 } from '../../src/core/streamProxy.js';
 import type { HttpLike } from '../../src/core/types.js';
 
 // Helper to construct a big-endian ISO BMFF box
@@ -423,7 +424,8 @@ describe('HLS Manifest Generator (Alternative 1)', () => {
       const manifest = Buffer.from(base64Part, 'base64').toString('utf-8');
       expect(manifest).toContain('#EXT-X-VERSION:7');
       expect(manifest).toContain('#EXT-X-BYTERANGE:150000@');
-      expect(manifest).toContain(streamUrl);
+      expect(manifest).toContain('http://127.0.0.1:9100/stream/');
+      expect(manifest).toContain(encodeStreamUrlBase64(streamUrl));
     });
 
     it('should dynamically expand range fetch if sidx box exceeds 32 KB window', async () => {

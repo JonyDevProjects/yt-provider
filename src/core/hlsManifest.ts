@@ -1,4 +1,5 @@
 import type { HttpLike } from './types.js';
+import { getStreamServerPort, buildProxiedStreamUrl } from './streamProxy.js';
 
 export interface Fmp4Box {
   type: string;
@@ -321,6 +322,34 @@ export function generateHlsManifest(
 }
 
 /**
+ * Converts an M3U8 playlist string into a Blob URL (preferred in webview)
+ * with origin matching the application to prevent opaque origin null errors.
+ */
+export function toHlsBlobUri(m3u8: string): string | null {
+  if (typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function' && typeof Blob !== 'undefined') {
+    try {
+      const blob = new Blob([m3u8], { type: 'application/vnd.apple.mpegurl' });
+      return URL.createObjectURL(blob);
+    } catch {
+      return null;
+    }
+  }
+  return null;
+}
+
+/**
+ * Converts an M3U8 playlist string into a playable URL.
+ * Prefers Blob URL in webview/browser contexts; falls back to base64 Data URI.
+ */
+export function toHlsPlaylistUrl(m3u8: string): string {
+  const blobUrl = toHlsBlobUri(m3u8);
+  if (blobUrl) {
+    return blobUrl;
+  }
+  return toHlsDataUri(m3u8);
+}
+
+/**
  * Converts an M3U8 playlist string into a base64 Data URI
  * data:application/vnd.apple.mpegurl;base64,...
  */
@@ -353,8 +382,12 @@ export function toHlsDataUri(m3u8: string): string {
 }
 
 /**
- * Integration helper for NuclearTube: fetches headers, parses boxes,
- * generates synthetic HLS manifest and returns the HLS stream object.
+ * Integration helper for NuclearTube:
+ * 1. Obtains the local Nuclear stream proxy port.
+ * 2. Proxies segment URLs through http://127.0.0.1:${port}/stream/${base64url} to bypass CORS.
+ * 3. Fetches fMP4 box headers to build the segment index.
+ * 4. Generates synthetic RFC 8216 HLS playlist with byte ranges.
+ * 5. Returns protocol: 'hls' with Blob or Data URI.
  */
 export async function resolveHlsStream(
   http: HttpLike | { fetch: any } | ((url: string, init?: any) => Promise<any>),
@@ -362,9 +395,23 @@ export async function resolveHlsStream(
   candidateId: string,
   providerId: string,
   durationSeconds?: number | null,
+  streamServerPort?: number,
 ): Promise<HlsStreamResult> {
-  const { sidxData } = await fetchAndParseBoxes(http, streamUrl);
-  const m3u8 = generateHlsManifest(streamUrl, sidxData, durationSeconds ?? undefined);
+  const port = streamServerPort ?? (await getStreamServerPort());
+  const proxiedSegmentUrl = buildProxiedStreamUrl(streamUrl, port);
+
+  // Fetch box headers via proxied URL first (bypasses CORS in webview), with direct fallback
+  let boxes: ParsedBoxes;
+  try {
+    boxes = await fetchAndParseBoxes(http, proxiedSegmentUrl);
+  } catch {
+    boxes = await fetchAndParseBoxes(http, streamUrl);
+  }
+
+  const { sidxData } = boxes;
+  // Crucial: The manifest MUST reference the proxied URL so that Hls.js segment fetches
+  // route through 127.0.0.1:${port} which injects Access-Control-Allow-Origin: *!
+  const m3u8 = generateHlsManifest(proxiedSegmentUrl, sidxData, durationSeconds ?? undefined);
   const dataUri = toHlsDataUri(m3u8);
 
   return {

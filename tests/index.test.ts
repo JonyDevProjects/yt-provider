@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { NuclearPluginAPI, StreamingProvider, PlaylistProvider } from '@nuclearplayer/plugin-sdk';
+import { encodeStreamUrlBase64 } from '../src/core/streamProxy.js';
 import plugin from '../src/index.js';
 
 describe('Nuclear Plugin Integration', () => {
@@ -199,7 +200,8 @@ describe('Nuclear Plugin Integration', () => {
     expect(m3u8).toContain('#EXT-X-VERSION:7');
     expect(m3u8).toContain('#EXT-X-TARGETDURATION:10');
     expect(m3u8).toContain('#EXT-X-BYTERANGE:150000@');
-    expect(m3u8).toContain('https://example.com/stream-long-fmp4');
+    expect(m3u8).toContain('http://127.0.0.1:9100/stream/');
+    expect(m3u8).toContain(encodeStreamUrlBase64('https://example.com/stream-long-fmp4'));
   });
 
   it('should fall back gracefully to direct stream if alternative resolution fails', async () => {
