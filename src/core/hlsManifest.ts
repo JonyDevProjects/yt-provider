@@ -224,8 +224,8 @@ export async function fetchAndParseBoxes(
     },
   });
 
-  const bytes = await toUint8Array(response);
-  const boxes = findBoxes(bytes);
+  let bytes = await toUint8Array(response);
+  let boxes = findBoxes(bytes);
 
   const ftyp = boxes.find((b) => b.type === 'ftyp');
   if (!ftyp) {
@@ -237,9 +237,23 @@ export async function fetchAndParseBoxes(
     throw new Error('No moov box found in stream header (0-32767)');
   }
 
-  const sidx = boxes.find((b) => b.type === 'sidx');
+  let sidx = boxes.find((b) => b.type === 'sidx');
   if (!sidx) {
     throw new Error('No sidx box found in stream header (0-32767)');
+  }
+
+  // If the sidx box extends beyond the initial 32 KB window (e.g. tracks > 5-10 hours),
+  // dynamically expand the byte-range to fetch the full box without truncation.
+  const totalRequiredBytes = sidx.offset + sidx.size;
+  if (totalRequiredBytes > bytes.byteLength) {
+    const expandedResponse = await fetchFn(streamUrl, {
+      headers: {
+        Range: `bytes=0-${totalRequiredBytes - 1}`,
+      },
+    });
+    bytes = await toUint8Array(expandedResponse);
+    boxes = findBoxes(bytes);
+    sidx = boxes.find((b) => b.type === 'sidx') || sidx;
   }
 
   const sidxData = parseSidx(bytes, sidx.offset);
@@ -272,9 +286,15 @@ export function generateHlsManifest(
   sidxData: SidxData,
   duration?: number,
 ): string {
-  const maxSegmentDuration = sidxData.segments.length > 0
-    ? Math.max(...sidxData.segments.map((s) => s.duration))
-    : duration ?? 10;
+  let maxSegmentDuration = 0;
+  for (const s of sidxData.segments) {
+    if (s.duration > maxSegmentDuration) {
+      maxSegmentDuration = s.duration;
+    }
+  }
+  if (maxSegmentDuration === 0) {
+    maxSegmentDuration = duration ?? 10;
+  }
   
   const targetDuration = Math.max(1, Math.ceil(maxSegmentDuration));
   const initLength = sidxData.initSegmentEnd > 0 ? sidxData.initSegmentEnd : sidxData.boxOffset;

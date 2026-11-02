@@ -425,5 +425,54 @@ describe('HLS Manifest Generator (Alternative 1)', () => {
       expect(manifest).toContain('#EXT-X-BYTERANGE:150000@');
       expect(manifest).toContain(streamUrl);
     });
+
+    it('should dynamically expand range fetch if sidx box exceeds 32 KB window', async () => {
+      const ftyp = createBox('ftyp', new Uint8Array(16));
+      const moov = createBox('moov', new Uint8Array(400));
+      // Create sidx with 3,000 segments (~36 KB payload)
+      const segments = Array.from({ length: 3000 }, () => ({ duration: 10.0, size: 150000 }));
+      const sidxPayload = createSidxPayload({
+        timescale: 44100,
+        segments,
+      });
+      const sidx = createBox('sidx', sidxPayload);
+      const fullHeaderBytes = concatBytes([ftyp, moov, sidx]);
+
+      // First call only returns first 32 KB (truncated sidx)
+      const truncated32k = fullHeaderBytes.slice(0, 32768);
+
+      const mockFetch = vi.fn().mockImplementation(async (_url: string, init?: any) => {
+        const range = init?.headers?.Range;
+        if (range === 'bytes=0-32767') {
+          return { status: 206, body: truncated32k };
+        }
+        return { status: 206, body: fullHeaderBytes };
+      });
+
+      const parsed = await fetchAndParseBoxes({ fetch: mockFetch }, 'https://googlevideo.com/long');
+      expect(mockFetch).toHaveBeenCalledTimes(2);
+      expect(parsed.sidxData.segments).toHaveLength(3000);
+    });
+
+    it('should safely calculate targetDuration without stack overflow on 100,000 segments', () => {
+      const segments = Array.from({ length: 100000 }, (_, i) => ({
+        duration: i === 50000 ? 12.345 : 9.876,
+        referencedSize: 150000,
+        startByte: i * 150000,
+        endByte: (i + 1) * 150000 - 1,
+      }));
+
+      const sidxData: SidxData = {
+        timescale: 44100,
+        firstOffset: 0,
+        boxOffset: 723,
+        boxSize: 100000 * 12 + 32,
+        initSegmentEnd: 723,
+        segments,
+      };
+
+      const manifest = generateHlsManifest('https://example.com/test', sidxData);
+      expect(manifest).toContain('#EXT-X-TARGETDURATION:13');
+    });
   });
 });

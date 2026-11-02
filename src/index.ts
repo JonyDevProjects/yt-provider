@@ -78,6 +78,30 @@ function toStream(url: string, info: StreamData, sourceId: string): Stream {
 function createHttpAdapter(api: NuclearPluginAPI): HttpLike {
   return {
     fetch: async (url: string, init?: { headers?: Record<string, string>; method?: string; body?: string }) => {
+      // For binary media range requests (such as ISO BMFF headers), prefer direct browser fetch
+      // if available in webview to preserve pristine ArrayBuffer bytes without lossy UTF-8 IPC conversions.
+      if (typeof globalThis.fetch === 'function' && init?.headers?.Range) {
+        try {
+          const directRes = await globalThis.fetch(url, {
+            headers: init.headers,
+            method: init.method || 'GET',
+            body: init.body,
+          });
+          if (directRes.ok || directRes.status === 206) {
+            const ab = await directRes.arrayBuffer();
+            const bytes = new Uint8Array(ab);
+            return {
+              status: directRes.status,
+              body: '',
+              headers: Object.fromEntries(directRes.headers.entries()),
+              bytes: async () => bytes,
+            };
+          }
+        } catch {
+          // Fall back gracefully to api.Http.fetch
+        }
+      }
+
       // Do NOT send manual Accept-Encoding when using reqwest default client without gzip feature,
       // as reqwest will return raw compressed binary bytes into response.text() causing string corruption.
       const res = await api.Http.fetch(url, {
