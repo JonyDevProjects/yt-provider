@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { NuclearPluginAPI, StreamingProvider, PlaylistProvider } from '@nuclearplayer/plugin-sdk';
+import { encodeStreamUrlBase64 } from '../src/core/streamProxy.js';
 import plugin from '../src/index.js';
 
 describe('Nuclear Plugin Integration', () => {
@@ -108,7 +109,7 @@ describe('Nuclear Plugin Integration', () => {
     expect(candidates[0].id).toBe('vid2');
   });
 
-  it('should get stream URL directly from Ytdlp with safe range', async () => {
+  it('should get stream URL directly from Ytdlp with safe range for short streams', async () => {
     await plugin.onEnable!(mockApi);
     
     // Mock Ytdlp getStream response (snake_case)
@@ -135,6 +136,193 @@ describe('Nuclear Plugin Integration', () => {
       durationMs: 120000,
       source: { provider: 'nucleartube-streaming', id: 'vid1' },
     });
+  });
+
+  it('should generate synthetic HLS manifest with protocol hls for long fMP4 streams when boxes are fetched', async () => {
+    await plugin.onEnable!(mockApi);
+
+    function makeBox(type: string, payload: Uint8Array): Uint8Array {
+      const box = new Uint8Array(payload.length + 8);
+      const view = new DataView(box.buffer);
+      view.setUint32(0, box.length);
+      for (let i = 0; i < 4; i++) box[4 + i] = type.charCodeAt(i);
+      box.set(payload, 8);
+      return box;
+    }
+
+    const ftyp = makeBox('ftyp', new Uint8Array(16));
+    const moov = makeBox('moov', new Uint8Array(200));
+
+    const sidxPayload = new Uint8Array(24 + 12);
+    const sView = new DataView(sidxPayload.buffer);
+    sView.setUint8(0, 0);
+    sView.setUint32(4, 1);
+    sView.setUint32(8, 44100);
+    sView.setUint32(12, 0);
+    sView.setUint32(16, 0);
+    sView.setUint16(22, 1);
+    sView.setUint32(24, 150000);
+    sView.setUint32(28, 441000);
+    sView.setUint32(32, 0x90000000);
+
+    const sidx = makeBox('sidx', sidxPayload);
+    const headerBytes = new Uint8Array(ftyp.length + moov.length + sidx.length);
+    headerBytes.set(ftyp, 0);
+    headerBytes.set(moov, ftyp.length);
+    headerBytes.set(sidx, ftyp.length + moov.length);
+
+    (mockApi.Http.fetch as any).mockResolvedValue({
+      status: 206,
+      body: headerBytes,
+    });
+
+    (mockApi.Ytdlp.getStream as any).mockResolvedValue({
+      stream_url: 'https://example.com/stream-long-fmp4',
+      duration: 5400,
+      title: 'Long Concert',
+      container: 'm4a',
+      codec: 'mp4a.40.2',
+    });
+
+    const stream = await registeredProvider!.getStreamUrl!('vid_hls_test');
+
+    expect(stream.protocol).toBe('hls');
+    expect(stream.source).toEqual({
+      provider: 'nucleartube-streaming',
+      id: 'vid_hls_test',
+    });
+    expect(stream.durationMs).toBe(5400000);
+    expect(stream.url).toMatch(/^data:application\/vnd\.apple\.mpegurl;base64,/);
+
+    const base64 = stream.url.replace('data:application/vnd.apple.mpegurl;base64,', '');
+    const m3u8 = Buffer.from(base64, 'base64').toString('utf-8');
+    expect(m3u8).toContain('#EXTM3U');
+    expect(m3u8).toContain('#EXT-X-VERSION:7');
+    expect(m3u8).toContain('#EXT-X-TARGETDURATION:10');
+    expect(m3u8).toContain('#EXT-X-BYTERANGE:150000@');
+    expect(m3u8).toContain('http://127.0.0.1:9100/stream/');
+    expect(m3u8).toContain(encodeStreamUrlBase64('https://example.com/stream-long-fmp4'));
+  });
+
+  it('should fall back gracefully to direct stream if alternative resolution fails', async () => {
+    await plugin.onEnable!(mockApi);
+    (globalThis as any).__NUCLEARTUBE_STRATEGY__ = 'hls';
+    
+    // Simulate HTTP failure for box fetching
+    (mockApi.Http.fetch as any).mockRejectedValue(new Error('Network error'));
+
+    // Mock Ytdlp getStream response for a 2-hour long stream (7200s)
+    const mockSdkStreamInfo = {
+      stream_url: 'https://example.com/stream-long',
+      duration: 7200,
+      title: '2-Hour Ambient Session',
+      container: 'm4a',
+      codec: 'mp4a.40.2'
+    };
+    (mockApi.Ytdlp.getStream as any).mockResolvedValue(mockSdkStreamInfo);
+
+    const stream = await registeredProvider!.getStreamUrl!('vid_long');
+    
+    expect(mockApi.Ytdlp.getStream).toHaveBeenCalledWith('vid_long');
+    expect(stream.protocol).toBe('https');
+    expect(stream.mimeType).toBe('audio/mp4');
+    expect(stream.durationMs).toBe(7200000);
+
+    delete (globalThis as any).__NUCLEARTUBE_STRATEGY__;
+  });
+
+  it('should resolve long stream via Alternative 3 (WebM Opus) when strategy is webm', async () => {
+    await plugin.onEnable!(mockApi);
+    (globalThis as any).__NUCLEARTUBE_STRATEGY__ = 'webm';
+
+    (mockApi.Ytdlp.getStream as any).mockResolvedValue({
+      stream_url: 'https://example.com/stream-long-fmp4',
+      duration: 5400,
+      title: 'Long Concert',
+      container: 'm4a',
+      codec: 'mp4a.40.2',
+    });
+
+    (mockApi.Http.fetch as any).mockResolvedValue({
+      status: 200,
+      body: JSON.stringify({
+        streamingData: {
+          adaptiveFormats: [
+            { itag: 251, mimeType: 'audio/webm; codecs="opus"', url: 'https://example.com/direct-webm-251' }
+          ]
+        }
+      })
+    });
+
+    const stream = await registeredProvider!.getStreamUrl!('vid_webm_test');
+    expect(stream.protocol).toBe('https');
+    expect(stream.mimeType).toBe('audio/webm');
+    expect(stream.container).toBe('webm');
+    expect(stream.url).toBe('https://example.com/direct-webm-251?range=0-99999999999');
+
+    delete (globalThis as any).__NUCLEARTUBE_STRATEGY__;
+  });
+
+  it('should resolve long stream via Alternative 2 (Progressive itag 18) when strategy is itag18', async () => {
+    await plugin.onEnable!(mockApi);
+    (globalThis as any).__NUCLEARTUBE_STRATEGY__ = 'itag18';
+
+    (mockApi.Ytdlp.getStream as any).mockResolvedValue({
+      stream_url: 'https://example.com/stream-long-fmp4',
+      duration: 5400,
+      title: 'Long Concert',
+      container: 'm4a',
+      codec: 'mp4a.40.2',
+    });
+
+    (mockApi.Http.fetch as any).mockResolvedValue({
+      status: 200,
+      body: JSON.stringify({
+        streamingData: {
+          formats: [
+            { itag: 18, mimeType: 'video/mp4; codecs="avc1.42001E, mp4a.40.2"', url: 'https://example.com/direct-mp4-18' }
+          ]
+        }
+      })
+    });
+
+    const stream = await registeredProvider!.getStreamUrl!('vid_itag18_test');
+    expect(stream.protocol).toBe('https');
+    expect(stream.mimeType).toBe('video/mp4');
+    expect(stream.container).toBe('mp4');
+    expect(stream.url).toBe('https://example.com/direct-mp4-18');
+
+    delete (globalThis as any).__NUCLEARTUBE_STRATEGY__;
+  });
+
+  it('should preserve webm and opus mimeTypes', async () => {
+    await plugin.onEnable!(mockApi);
+    
+    // WebM track
+    (mockApi.Ytdlp.getStream as any).mockResolvedValue({
+      stream_url: 'https://example.com/stream-webm',
+      duration: 7200,
+      title: '2-Hour WebM Mix',
+      container: 'webm',
+      codec: 'opus'
+    });
+
+    const streamWebm = await registeredProvider!.getStreamUrl!('vid_webm');
+    expect(streamWebm.mimeType).toBe('audio/webm');
+    expect(streamWebm.container).toBe('webm');
+
+    // Opus container track
+    (mockApi.Ytdlp.getStream as any).mockResolvedValue({
+      stream_url: 'https://example.com/stream-opus',
+      duration: 5000,
+      title: 'Opus Podcast',
+      container: 'opus',
+      codec: 'opus'
+    });
+
+    const streamOpus = await registeredProvider!.getStreamUrl!('vid_opus');
+    expect(streamOpus.mimeType).toBe('audio/ogg');
+    expect(streamOpus.container).toBe('opus');
   });
 
   it('should fetch and map a playlist', async () => {
